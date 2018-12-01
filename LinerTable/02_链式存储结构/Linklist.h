@@ -32,9 +32,9 @@ public:
 	Linklist(void);  //创建线性表 
 	~Linklist();   //销毁线性表 
 	int ClearLinklist();  //清空线性表
-	TLinklist DeleteLinklist(int index); //删除线性表中的元素
+	TLinklist DeleteLinklist(unsigned int index); //删除线性表中的元素
 	TLinklist AddLinklist(TLinklist *data, unsigned int index); //在线性表中的某个位置添加元素 
-	TLinklist GetLinklist(int index); //获取线性表中某个位置的元素
+	TLinklist GetLinklist(unsigned int index); //获取线性表中某个位置的元素
 	int GetLinklistLength(void); //获取线性表当前的数据长度
 	void ShowLinklist(void);
 

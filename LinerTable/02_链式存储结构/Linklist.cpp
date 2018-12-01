@@ -35,7 +35,7 @@ int Linklist<TLinklist>::ClearLinklist()  //清空线性表 //O(1)
 }
 
 template <class TLinklist>
-TLinklist Linklist<TLinklist>::DeleteLinklist(int index) //删除线性表中的元素 //O(n)
+TLinklist Linklist<TLinklist>::DeleteLinklist(unsigned int index) //删除线性表中的元素 //O(n)
 {
 	TLinklist ret = FALSE;
 	
@@ -49,7 +49,7 @@ TLinklist Linklist<TLinklist>::DeleteLinklist(int index) //删除线性表中的元素 //
 		ret = CurrentNode->NextNode->data;
 		LinkNode<TLinklist> *DeleteNode = CurrentNode->NextNode;
 		CurrentNode->NextNode = DeleteNode->NextNode;
-		if(CurrentNode != NULL)
+		if(DeleteNode != NULL)
 		{
 			delete(DeleteNode);
 		}
@@ -98,7 +98,7 @@ TLinklist Linklist<TLinklist>::AddLinklist(TLinklist *data, unsigned int index) 
 }
 
 template <class TLinklist>
-TLinklist Linklist<TLinklist>::GetLinklist(int index) //获取线性表中某个位置的元素 //O(n)
+TLinklist Linklist<TLinklist>::GetLinklist(unsigned int index) //获取线性表中某个位置的元素 //O(n)
 {
 	TLinklist ret = FALSE;
 	if(index < Length)
