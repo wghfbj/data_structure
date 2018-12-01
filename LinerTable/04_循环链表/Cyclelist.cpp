@@ -35,27 +35,35 @@ int Cyclelist<TCyclelist>::ClearCyclelist()  //清空线性表 //O(1)
 }
 
 template <class TCyclelist>
-TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(int index) //删除线性表中的元素 //O(n)
+TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(unsigned int index) //删除线性表中的元素 //O(n)
 {
 	TCyclelist ret = FALSE;
 	
-	if(index < Length)
+	LinkNode<TCyclelist> *CurrentNode = this;
+	for(int tindex=1; tindex<index; tindex++)
 	{
-		LinkNode<TCyclelist> *CurrentNode = this;
-		for(int tindex=1; tindex<index; tindex++)
+		CurrentNode = CurrentNode->NextNode;
+	}
+	ret = CurrentNode->NextNode->data;
+	LinkNode<TCyclelist> *DeleteNode = CurrentNode->NextNode;
+	CurrentNode->NextNode = DeleteNode->NextNode;
+	
+	if(index == 0)
+	{
+		CurrentNode = this; 
+		for(int tindex=0; tindex<Length; tindex++)
 		{
 			CurrentNode = CurrentNode->NextNode;
 		}
-		ret = CurrentNode->NextNode->data;
-		LinkNode<TCyclelist> *DeleteNode = CurrentNode->NextNode;
-		CurrentNode->NextNode = DeleteNode->NextNode;
-		if(CurrentNode != NULL)
-		{
-			delete(DeleteNode);
-		}
-		DeleteNode = NULL;
-		Length--;
+		CurrentNode->NextNode = this->NextNode;
 	}
+	
+	if(DeleteNode != NULL)
+	{
+		delete(DeleteNode);
+	}
+	DeleteNode = NULL;
+	Length--;
 
 	return ret;
 }
@@ -69,9 +77,10 @@ TCyclelist Cyclelist<TCyclelist>::AddCyclelist(TCyclelist *data, unsigned int in
 		LinkNode<TCyclelist> *N = new LinkNode<TCyclelist>(*data);
 		if(N != NULL)
 		{
+			LinkNode<TCyclelist> *CurrentNode = this;
 			if(index < Length)
 			{
-				LinkNode<TCyclelist> *CurrentNode = this;
+				
 				for(int tindex=1; tindex<index; tindex++)
 				{
 					CurrentNode = CurrentNode->NextNode;
@@ -81,15 +90,23 @@ TCyclelist Cyclelist<TCyclelist>::AddCyclelist(TCyclelist *data, unsigned int in
 			}
 			else
 			{
-				LinkNode<TCyclelist> *CurrentNode = this;
 				for(int tindex=0; tindex<Length; tindex++)
 				{
 					CurrentNode = CurrentNode->NextNode;
 				}
 				CurrentNode->NextNode = N;
-				N->NextNode = NULL;
 			}
 			Length++;
+			
+			if(index == 0)
+			{
+				CurrentNode = this;
+				for(int tindex=0; tindex<Length; tindex++)
+				{
+					CurrentNode = CurrentNode->NextNode;
+				}
+				CurrentNode->NextNode = this->NextNode; 
+			}
 			ret = TRUE;
 		}
 	}
@@ -98,21 +115,19 @@ TCyclelist Cyclelist<TCyclelist>::AddCyclelist(TCyclelist *data, unsigned int in
 }
 
 template <class TCyclelist>
-TCyclelist Cyclelist<TCyclelist>::GetCyclelist(int index) //获取线性表中某个位置的元素 //O(n)
+TCyclelist Cyclelist<TCyclelist>::GetCyclelist(unsigned int index) //获取线性表中某个位置的元素 //O(n)
 {
 	TCyclelist ret = FALSE;
-	if(index < Length)
+
+	LinkNode<TCyclelist> *CurrentNode = this;
+	for(int tindex=0; tindex<index; tindex++)
 	{
-		LinkNode<TCyclelist> *CurrentNode = this;
-		for(int tindex=0; tindex<index; tindex++)
-		{
-			CurrentNode = CurrentNode->NextNode;
-		}
-		if(CurrentNode != NULL)
-		{
-			ret = CurrentNode->data;
-		} 
+		CurrentNode = CurrentNode->NextNode;
 	}
+	if(CurrentNode != NULL)
+	{
+		ret = CurrentNode->data;
+	} 
 	
 	return ret;
 }
