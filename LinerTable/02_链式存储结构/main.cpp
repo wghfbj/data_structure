@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
 	printf("\n Delete Index[%d] value = %d \n", 3, (int)L->DeleteLinklist(3));
 	printf("\n 22 Get Linklist length = %d \n", (int)L->GetLinklistLength());
 	L->ShowLinklist();
+	delete(L); 
 	printf("\n Func End ! \n\n");
 	return 0;
 }

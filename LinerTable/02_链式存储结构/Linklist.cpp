@@ -24,6 +24,22 @@ Linklist<TLinklist>::Linklist():LinkNode<TLinklist>::LinkNode(0)  //创建线性表 /
 template <class TLinklist>
 Linklist<TLinklist>::~Linklist()  //销毁线性表  //O(1)
 {
+	LinkNode<TLinklist> *CurrentNode = this;
+	LinkNode<TLinklist> *NextNode = this->NextNode;
+
+	for(int tindex=0; tindex<Length; tindex++)
+	{
+		CurrentNode = NextNode;
+		if(CurrentNode != NULL);
+		{
+			NextNode = CurrentNode->NextNode;
+			delete(CurrentNode);
+			CurrentNode = NULL;
+		}
+	}
+	CurrentNode = NULL;
+	NextNode = NULL;
+	Length = 0;
 }
 
 template <class TLinklist>
