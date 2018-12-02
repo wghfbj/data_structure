@@ -58,7 +58,7 @@ TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(unsigned int index) //删除线性
 	TCyclelist ret = FALSE;
 	
 	LinkNode<TCyclelist> *CurrentNode = this;
-	for(int tindex=1; tindex<index; tindex++)
+	for(int tindex=0; tindex<index; tindex++)
 	{
 		CurrentNode = CurrentNode->NextNode;
 	}
@@ -69,11 +69,11 @@ TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(unsigned int index) //删除线性
 	if(index == 0)
 	{
 		CurrentNode = this; 
-		for(int tindex=0; tindex<Length; tindex++)
+		for(int tindex=1; tindex<Length; tindex++)
 		{
 			CurrentNode = CurrentNode->NextNode;
 		}
-		CurrentNode->NextNode = this->NextNode->NextNode;
+		CurrentNode->NextNode = DeleteNode->NextNode;
 	}
 
 	if(Slider == DeleteNode)
@@ -176,7 +176,7 @@ void Cyclelist<TCyclelist>::ShowCyclelist() //打印线性表中所有元素  //O(n)
 	for(int tindex=0; tindex<Length; tindex++)
 	{
 		CurrentNode = CurrentNode->NextNode;
-		printf(" Cyclelist[%d] = %d  %d \n", tindex, CurrentNode->data, CurrentNode);
+		printf(" Cyclelist[%d] = %d \n", tindex, CurrentNode->data);
 	}
 }
 
@@ -229,7 +229,7 @@ LinkNode<TCyclelist> *Cyclelist<TCyclelist>::DeleteNode(LinkNode<TCyclelist>* da
 	if(data != NULL)
 	{
 		unsigned int tindex = 0;
-		LinkNode<TCyclelist> *CurrentNode = this;
+		LinkNode<TCyclelist> *CurrentNode = this->NextNode;
 		for(tindex=0; tindex<Length; tindex++)
 		{
 			if(data == CurrentNode)
