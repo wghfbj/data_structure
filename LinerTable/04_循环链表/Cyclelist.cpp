@@ -19,11 +19,28 @@ Cyclelist<TCyclelist>::Cyclelist():LinkNode<TCyclelist>::LinkNode(0)  //创建线性
 {
 	Length = 0;
 	this->NextNode = NULL;
+	this->Slider = NULL;
 }
 
 template <class TCyclelist>
 Cyclelist<TCyclelist>::~Cyclelist()  //销毁线性表  //O(1)
 {
+	LinkNode<TCyclelist> *CurrentNode = this;
+	LinkNode<TCyclelist> *NextNode = this->NextNode;
+
+	for(int tindex=0; tindex<Length; tindex++)
+	{
+		CurrentNode = NextNode;
+		if(CurrentNode != NULL);
+		{
+			NextNode = CurrentNode->NextNode;
+			delete(CurrentNode);
+			CurrentNode = NULL;
+		}
+	}
+	CurrentNode = NULL;
+	NextNode = NULL;
+	Length = 0;
 }
 
 template <class TCyclelist>
@@ -31,6 +48,7 @@ int Cyclelist<TCyclelist>::ClearCyclelist()  //清空线性表 //O(1)
 {
 	Length = 0;
 	this->NextNode = NULL;
+	Slider = NULL;
 	return TRUE;
 }
 
@@ -44,8 +62,8 @@ TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(unsigned int index) //删除线性
 	{
 		CurrentNode = CurrentNode->NextNode;
 	}
-	ret = CurrentNode->NextNode->data;
 	LinkNode<TCyclelist> *DeleteNode = CurrentNode->NextNode;
+	ret = DeleteNode->data;
 	CurrentNode->NextNode = DeleteNode->NextNode;
 	
 	if(index == 0)
@@ -55,7 +73,12 @@ TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(unsigned int index) //删除线性
 		{
 			CurrentNode = CurrentNode->NextNode;
 		}
-		CurrentNode->NextNode = this->NextNode;
+		CurrentNode->NextNode = this->NextNode->NextNode;
+	}
+
+	if(Slider == DeleteNode)
+	{
+		Slider = DeleteNode->NextNode;
 	}
 	
 	if(DeleteNode != NULL)
@@ -64,6 +87,11 @@ TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(unsigned int index) //删除线性
 	}
 	DeleteNode = NULL;
 	Length--;
+	
+	if(Length == 0)
+	{
+		Slider = NULL;
+	}
 
 	return ret;
 }
@@ -96,17 +124,19 @@ TCyclelist Cyclelist<TCyclelist>::AddCyclelist(TCyclelist *data, unsigned int in
 				}
 				CurrentNode->NextNode = N;
 			}
-			Length++;
-			
-			if(index == 0)
+			if(Length == 0)
 			{
-				CurrentNode = this;
-				for(int tindex=0; tindex<Length; tindex++)
-				{
-					CurrentNode = CurrentNode->NextNode;
-				}
-				CurrentNode->NextNode = this->NextNode; 
+				Slider = N; 
+			} 
+			Length++;
+
+			CurrentNode = this;
+			for(int tindex=0; tindex<Length; tindex++)
+			{
+				CurrentNode = CurrentNode->NextNode;
 			}
+			CurrentNode->NextNode = this->NextNode; 
+
 			ret = TRUE;
 		}
 	}
@@ -146,8 +176,78 @@ void Cyclelist<TCyclelist>::ShowCyclelist() //打印线性表中所有元素  //O(n)
 	for(int tindex=0; tindex<Length; tindex++)
 	{
 		CurrentNode = CurrentNode->NextNode;
-		printf(" Cyclelist[%d] = %d \n", tindex, (int)CurrentNode->data);
+		printf(" Cyclelist[%d] = %d  %d \n", tindex, CurrentNode->data, CurrentNode);
 	}
+}
+
+
+//游标新增方法
+template <class TCyclelist>
+LinkNode<TCyclelist> *Cyclelist<TCyclelist>::GetSlider_Currnt(void)
+{
+	if(Slider != NULL)
+	{
+		return Slider;
+	}
+}
+
+template <class TCyclelist>
+LinkNode<TCyclelist> *Cyclelist<TCyclelist>::SetSlider_Next(void)
+{
+	LinkNode<TCyclelist> *ret = NULL;
+	if(Slider != NULL)
+	{
+		Slider = Slider->NextNode;
+		ret = Slider; 
+	}
+
+	return ret;
+}
+
+template <class TCyclelist>
+bool Cyclelist<TCyclelist>::SetSlider_Reset(void)
+{
+	bool ret = FALSE;
+	if(Length != 0)
+	{
+		Slider = this->Next;
+		ret = TRUE;
+	}
+	else
+	{
+		Slider = NULL;
+	}
+	
+	return ret;
+}
+
+template <class TCyclelist>
+LinkNode<TCyclelist> *Cyclelist<TCyclelist>::DeleteNode(LinkNode<TCyclelist>* data)
+{
+	LinkNode<TCyclelist> *ret = NULL;
+	
+	if(data != NULL)
+	{
+		unsigned int tindex = 0;
+		LinkNode<TCyclelist> *CurrentNode = this;
+		for(tindex=0; tindex<Length; tindex++)
+		{
+			if(data == CurrentNode)
+			{
+				ret = CurrentNode->NextNode;
+				break;
+			}
+			CurrentNode = CurrentNode->NextNode;
+		}
+		
+		
+		if(CurrentNode != NULL)
+		{
+			DeleteCyclelist(tindex);
+		}
+	}
+	
+	return ret;
 }
 
 #endif //_CYCLELIST_CPP_
