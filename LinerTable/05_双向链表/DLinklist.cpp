@@ -19,6 +19,8 @@ DLinklist<TDLinklist>::DLinklist():LinkNode<TDLinklist>::LinkNode(0)  //创建线性
 {
 	Length = 0;
 	this->NextNode = NULL;
+	this->PreNode = NULL;
+	this->Slider = NULL; 
 }
 
 template <class TDLinklist>
@@ -47,6 +49,8 @@ int DLinklist<TDLinklist>::ClearDLinklist()  //清空线性表 //O(1)
 {
 	Length = 0;
 	this->NextNode = NULL;
+	this->PreNode = NULL;
+	this->Slider = NULL;
 	return TRUE;
 }
 
@@ -58,13 +62,29 @@ TDLinklist DLinklist<TDLinklist>::DeleteDLinklist(unsigned int index) //删除线性
 	if(index < Length)
 	{
 		LinkNode<TDLinklist> *CurrentNode = this;
-		for(int tindex=1; tindex<index; tindex++)
+		LinkNode<TDLinklist> *NextNode = this;
+		for(int tindex=0; tindex<index; tindex++)
 		{
 			CurrentNode = CurrentNode->NextNode;
 		}
 		ret = CurrentNode->NextNode->data;
 		LinkNode<TDLinklist> *DeleteNode = CurrentNode->NextNode;
-		CurrentNode->NextNode = DeleteNode->NextNode;
+		NextNode = DeleteNode->NextNode;
+		CurrentNode->NextNode = NextNode;
+		if(NextNode != NULL)
+		{
+			NextNode->PreNode = CurrentNode;
+			if(index == 0)
+			{
+				NextNode->PreNode = NULL;
+			}
+		}
+		
+		if(Slider == DeleteNode)
+		{
+			Slider = DeleteNode->NextNode;
+		}
+
 		if(DeleteNode != NULL)
 		{
 			delete(DeleteNode);
@@ -88,12 +108,16 @@ TDLinklist DLinklist<TDLinklist>::AddDLinklist(TDLinklist *data, unsigned int in
 			if(index < Length)
 			{
 				LinkNode<TDLinklist> *CurrentNode = this;
+				LinkNode<TDLinklist> *NextNode = this;
 				for(int tindex=1; tindex<index; tindex++)
 				{
 					CurrentNode = CurrentNode->NextNode;
 				}
-				N->NextNode = CurrentNode->NextNode; 
+				NextNode = CurrentNode->NextNode;
+				N->NextNode = NextNode; 
 				CurrentNode->NextNode = N;
+				NextNode->PreNode = N;
+				N->PreNode = CurrentNode;
 			}
 			else
 			{
@@ -104,6 +128,15 @@ TDLinklist DLinklist<TDLinklist>::AddDLinklist(TDLinklist *data, unsigned int in
 				}
 				CurrentNode->NextNode = N;
 				N->NextNode = NULL;
+				if(Length == 0)
+				{
+					N->PreNode = NULL;
+					Slider = N;
+				}
+				else
+				{
+					N->PreNode = CurrentNode;
+				}
 			}
 			Length++;
 			ret = TRUE;
@@ -150,5 +183,88 @@ void DLinklist<TDLinklist>::ShowDLinklist() //打印线性表中所有元素  //O(n)
 		printf(" DLinklist[%d] = %d \n", tindex, (int)CurrentNode->data);
 	}
 }
+
+
+//游标新增操作方法
+template <class TDLinklist>
+LinkNode<TDLinklist> *DLinklist<TDLinklist>::GetSlider_Currnt(void)   //获取当前游标节点  //O(1)
+{
+	if(Slider != NULL)
+	{
+		return Slider;
+	}
+}
+
+template <class TDLinklist>
+LinkNode<TDLinklist> *DLinklist<TDLinklist>::SetSlider_Next(void)  //将当前游标节点指向下一个节点  //O(1)
+{
+	LinkNode<TDLinklist> *ret = NULL;
+	if(Slider != NULL)
+	{
+		Slider = Slider->NextNode;
+		ret = Slider; 
+	}
+
+	return ret;
+}
+
+template <class TDLinklist>
+LinkNode<TDLinklist> *DLinklist<TDLinklist>::SetSlider_Pre(void)  //将当前游标节点指向下一个节点  //O(1)
+{
+	LinkNode<TDLinklist> *ret = NULL;
+	if(Slider != NULL)
+	{
+		Slider = Slider->PreNode;
+		ret = Slider;
+	}
+
+	return ret;
+}
+
+template <class TDLinklist>
+bool DLinklist<TDLinklist>::SetSlider_Reset(void)  //复位游标节点 
+{
+	bool ret = FALSE;
+	if(Length != 0)
+	{
+		Slider = this->Next;
+		ret = TRUE;
+	}
+	else
+	{
+		Slider = NULL;
+	}
+	
+	return ret;
+}
+
+template <class TDLinklist>
+LinkNode<TDLinklist> *DLinklist<TDLinklist>::DeleteNode(LinkNode<TDLinklist>* data)  //根据节点删除链表中的节点  //O(3n)
+{
+	LinkNode<TDLinklist> *ret = NULL;
+	
+	if(data != NULL)
+	{
+		unsigned int tindex = 0;
+		LinkNode<TDLinklist> *CurrentNode = this->NextNode;
+		for(tindex=0; tindex<Length; tindex++)
+		{
+			if(data == CurrentNode)
+			{
+				ret = CurrentNode->NextNode;
+				break;
+			}
+			CurrentNode = CurrentNode->NextNode;
+		}
+		
+		
+		if(CurrentNode != NULL)
+		{
+			DeleteDLinklist(tindex);
+		}
+	}
+	
+	return ret;
+} 
 
 #endif //_DLINKLIST_CPP_

@@ -19,9 +19,13 @@ int main(int argc, char** argv) {
 	L->AddDLinklist(&e, 0);
 	printf("\n 11 Get DLinklist length = %d \n", (int)L->GetDLinklistLength());
 	L->ShowDLinklist();
+	printf("\n 11 Get Current Slider = %d \n", (int)L->GetSlider_Currnt()->data);
 	printf("\n Get Index[%d] value = %d \n", 4, (int)L->GetDLinklist(4));
 	printf("\n Delete Index[%d] value = %d \n", 3, (int)L->DeleteDLinklist(3));
 	printf("\n 22 Get DLinklist length = %d \n", (int)L->GetDLinklistLength());
+	L->ShowDLinklist();
+	L->DeleteNode(L->SetSlider_Pre());
+	printf("\n Delete Slider Pre Node \n");
 	L->ShowDLinklist();
 	delete(L); 
 	printf("\n Func End ! \n\n");
