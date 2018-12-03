@@ -58,7 +58,7 @@ TLinklist Linklist<TLinklist>::DeleteLinklist(unsigned int index) //删除线性表中
 	if(index < Length)
 	{
 		LinkNode<TLinklist> *CurrentNode = this;
-		for(int tindex=1; tindex<index; tindex++)
+		for(int tindex=0; tindex<index; tindex++)
 		{
 			CurrentNode = CurrentNode->NextNode;
 		}

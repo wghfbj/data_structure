@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
 	printf("\n 11 Get Linklist length = %d \n", (int)L->GetLinklistLength());
 	L->ShowLinklist();
 	printf("\n Get Index[%d] value = %d \n", 4, (int)L->GetLinklist(4));
-	printf("\n Delete Index[%d] value = %d \n", 3, (int)L->DeleteLinklist(3));
+	printf("\n Delete Index[%d] value = %d \n", 2, (int)L->DeleteLinklist(2));
 	printf("\n 22 Get Linklist length = %d \n", (int)L->GetLinklistLength());
 	L->ShowLinklist();
 	delete(L); 
