@@ -23,7 +23,7 @@ Cyclelist<TCyclelist>::Cyclelist():LinkNode<TCyclelist>::LinkNode(0)  //创建线性
 }
 
 template <class TCyclelist>
-Cyclelist<TCyclelist>::~Cyclelist()  //销毁线性表  //O(1)
+Cyclelist<TCyclelist>::~Cyclelist()  //销毁线性表  //O(n)
 {
 	LinkNode<TCyclelist> *CurrentNode = this;
 	LinkNode<TCyclelist> *NextNode = this->NextNode;
@@ -53,7 +53,7 @@ int Cyclelist<TCyclelist>::ClearCyclelist()  //清空线性表 //O(1)
 }
 
 template <class TCyclelist>
-TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(unsigned int index) //删除线性表中的元素 //O(n)
+TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(unsigned int index) //删除线性表中的元素 //O(2n)
 {
 	TCyclelist ret = FALSE;
 	
@@ -97,7 +97,7 @@ TCyclelist Cyclelist<TCyclelist>::DeleteCyclelist(unsigned int index) //删除线性
 }
 
 template <class TCyclelist>
-TCyclelist Cyclelist<TCyclelist>::AddCyclelist(TCyclelist *data, unsigned int index) //在线性表中的某个位置添加元素  //O(n)
+TCyclelist Cyclelist<TCyclelist>::AddCyclelist(TCyclelist *data, unsigned int index) //在线性表中的某个位置添加元素  //O(2n)
 {
 	TCyclelist ret = FALSE;
 	if(data != NULL)
@@ -183,7 +183,7 @@ void Cyclelist<TCyclelist>::ShowCyclelist() //打印线性表中所有元素  //O(n)
 
 //游标新增方法
 template <class TCyclelist>
-LinkNode<TCyclelist> *Cyclelist<TCyclelist>::GetSlider_Currnt(void)
+LinkNode<TCyclelist> *Cyclelist<TCyclelist>::GetSlider_Currnt(void)   //获取当前游标  //O(1)
 {
 	if(Slider != NULL)
 	{
@@ -192,7 +192,7 @@ LinkNode<TCyclelist> *Cyclelist<TCyclelist>::GetSlider_Currnt(void)
 }
 
 template <class TCyclelist>
-LinkNode<TCyclelist> *Cyclelist<TCyclelist>::SetSlider_Next(void)
+LinkNode<TCyclelist> *Cyclelist<TCyclelist>::SetSlider_Next(void)  //将游标指向下一个元素  //O(1)
 {
 	LinkNode<TCyclelist> *ret = NULL;
 	if(Slider != NULL)
@@ -205,7 +205,7 @@ LinkNode<TCyclelist> *Cyclelist<TCyclelist>::SetSlider_Next(void)
 }
 
 template <class TCyclelist>
-bool Cyclelist<TCyclelist>::SetSlider_Reset(void)
+bool Cyclelist<TCyclelist>::SetSlider_Reset(void)  //复位游标  //O(1)
 {
 	bool ret = FALSE;
 	if(Length != 0)
@@ -222,7 +222,7 @@ bool Cyclelist<TCyclelist>::SetSlider_Reset(void)
 }
 
 template <class TCyclelist>
-LinkNode<TCyclelist> *Cyclelist<TCyclelist>::DeleteNode(LinkNode<TCyclelist>* data)
+LinkNode<TCyclelist> *Cyclelist<TCyclelist>::DeleteNode(LinkNode<TCyclelist>* data)  //根据节点指针删除此节点  //O(3n)
 {
 	LinkNode<TCyclelist> *ret = NULL;
 	
