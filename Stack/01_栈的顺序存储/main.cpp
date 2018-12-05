@@ -10,10 +10,18 @@ int main(int argc, char** argv) {
 	int a = 1;
 	int b = 2;
 	int c = 3;
+	int d = 4;
+	int e = 5;
+	int f = 6;
 	
 	S->Push_SeqStack(&a);
 	S->Push_SeqStack(&b);
 	S->Push_SeqStack(&c);
+	S->Push_SeqStack(&d);
+	S->Push_SeqStack(&e);
+	S->Push_SeqStack(&f);
+	
+	printf("\n the MaxLength is %d \n", S->GetMaxLength_SeqStack()); 
 	
 	while(S->GetLength_SeqStack() > 0)
 	{
