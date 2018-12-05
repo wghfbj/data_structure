@@ -45,7 +45,6 @@ Tseqlist Seqlist<Tseqlist>::DeleteSeqlist(int index) //删除线性表中的元素 //O(n)
 			}
 			Node[Length-1] = 0;
 			Length--;
-			ret = TRUE;
 		}
 	}
 	return ret;

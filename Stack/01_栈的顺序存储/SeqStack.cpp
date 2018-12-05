@@ -1,5 +1,4 @@
 #include "SeqStack.h"
-
 #include "Seqlist.cpp"
 
 template <class Tseqlist>
