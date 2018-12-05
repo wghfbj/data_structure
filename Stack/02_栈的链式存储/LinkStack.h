@@ -15,7 +15,6 @@ public:
 	TLinklist Pop_LinkStack(void);
 	TLinklist GetTop_LinkStack(void);
 	int GetLength_LinkStack(void);
-	int GetMaxLength_LinkStack(void);
 
 private:
 	Linklist<TLinklist> *S;

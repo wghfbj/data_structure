@@ -119,7 +119,7 @@ TLinklist Linklist<TLinklist>::GetLinklist(unsigned int index) //»ñÈ¡ÏßĞÔ±íÖĞÄ³¸
 	TLinklist ret = FALSE;
 	if(index < Length)
 	{
-		LinkNode<TLinklist> *CurrentNode = this;
+		LinkNode<TLinklist> *CurrentNode = this->NextNode;
 		for(int tindex=0; tindex<index; tindex++)
 		{
 			CurrentNode = CurrentNode->NextNode;
