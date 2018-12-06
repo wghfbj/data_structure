@@ -7,8 +7,9 @@
 int main(int argc, char** argv) {
 
 	CodeScaner *C = new CodeScaner();
-
-	delete(C); 
+	char abc[] = "int main(int argc, char** argv)() {CodeScaner *C = new CodeScaner();char abc[] = ""delete(C); printf(\"\\n Func End ! \\n\\n\");return 0;}";
+	C->StarScan(abc);
+	delete(C);
 	printf("\n Func End ! \n\n");
 	return 0;
 }
