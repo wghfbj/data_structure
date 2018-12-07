@@ -2,13 +2,13 @@
 #include "Seqlist.cpp"
 
 template <class Tseqlist>
-SeqStack<Tseqlist>::SeqStack(int Length)
+SeqStack<Tseqlist>::SeqStack(int Length)  //创建栈 //O(1)
 {
 	S = new Seqlist<Tseqlist>(Length);
 }
 
 template <class Tseqlist>
-SeqStack<Tseqlist>::~SeqStack(void)
+SeqStack<Tseqlist>::~SeqStack(void)  //销毁栈  //O(1) 
 {
 	if(S != NULL)
 	{
@@ -18,7 +18,7 @@ SeqStack<Tseqlist>::~SeqStack(void)
 }
 
 template <class Tseqlist>
-bool SeqStack<Tseqlist>::Clear_SeqStack(void)
+bool SeqStack<Tseqlist>::Clear_SeqStack(void) //清空栈  //O(1) 
 {
 	int ret = FALSE;
 	
@@ -30,7 +30,7 @@ bool SeqStack<Tseqlist>::Clear_SeqStack(void)
 }
 
 template <class Tseqlist>
-bool SeqStack<Tseqlist>::Push_SeqStack(Tseqlist *data)
+bool SeqStack<Tseqlist>::Push_SeqStack(Tseqlist *data) //压数据进栈  //O(1)
 {
 	bool ret = FALSE;
 	if(S != NULL)
@@ -44,7 +44,7 @@ bool SeqStack<Tseqlist>::Push_SeqStack(Tseqlist *data)
 }
 
 template <class Tseqlist>
-Tseqlist SeqStack<Tseqlist>::Pop_SeqStack(void)
+Tseqlist SeqStack<Tseqlist>::Pop_SeqStack(void) //压数据进栈  //O(1)
 {
 	Tseqlist ret = FALSE;
 	if(S != NULL)
@@ -58,7 +58,7 @@ Tseqlist SeqStack<Tseqlist>::Pop_SeqStack(void)
 }
 
 template <class Tseqlist>
-Tseqlist SeqStack<Tseqlist>::GetTop_SeqStack(void)
+Tseqlist SeqStack<Tseqlist>::GetTop_SeqStack(void)  //弹出栈顶数据   //O(1)
 {
 	Tseqlist ret = FALSE;
 	if(S != NULL)
@@ -69,7 +69,7 @@ Tseqlist SeqStack<Tseqlist>::GetTop_SeqStack(void)
 }
 
 template <class Tseqlist>
-int SeqStack<Tseqlist>::GetLength_SeqStack(void)
+int SeqStack<Tseqlist>::GetLength_SeqStack(void)  //获取栈的长度 //O(1)
 {
 	if(S != NULL)
 	{
@@ -79,7 +79,7 @@ int SeqStack<Tseqlist>::GetLength_SeqStack(void)
 }
 
 template <class Tseqlist>
-int SeqStack<Tseqlist>::GetMaxLength_SeqStack(void)
+int SeqStack<Tseqlist>::GetMaxLength_SeqStack(void)  //获取栈能保存的最大长度  //O(1)
 {
 	if(S != NULL)
 	{
