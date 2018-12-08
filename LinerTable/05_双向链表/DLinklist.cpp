@@ -47,6 +47,10 @@ DLinklist<TDLinklist>::~DLinklist()  //销毁线性表  //O(1)
 template <class TDLinklist>
 int DLinklist<TDLinklist>::ClearDLinklist()  //清空线性表 //O(1)
 {
+	while(Length > 0)
+	{
+		DeleteDLinklist(0);
+	}
 	Length = 0;
 	this->NextNode = NULL;
 	this->PreNode = NULL;
