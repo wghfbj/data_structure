@@ -45,6 +45,10 @@ Linklist<TLinklist>::~Linklist()  //销毁线性表  //O(1)
 template <class TLinklist>
 int Linklist<TLinklist>::ClearLinklist()  //清空线性表 //O(1)
 {
+	while(Length > 0)
+	{
+		DeleteLinklist(0);
+	}
 	Length = 0;
 	this->NextNode = NULL;
 	return TRUE;

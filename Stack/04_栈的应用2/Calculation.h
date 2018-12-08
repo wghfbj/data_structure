@@ -3,30 +3,30 @@
 
 #include "LinkStack.h"
 
-typedef struct
-{
-	char L;
-	char R;
-
-} MatchPair;
-
 class Calculation
 {
 public:
 	Calculation(void);
 	~Calculation(void);
 	
-	bool IsLeft(char L);
-	bool IsRight(char R);
-	bool IsMatch(char L, char R);
-	bool StarScan(const char* code);
+	int StartCalculate(void);
+	bool StartConvert(const char* Rule);
+	bool Start(const char* Rule);
 	
-	static MatchPair MP[];
-	static char LC[];
-	static char RC[];
+private:
+	bool IsNumber(char Num);
+	bool IsMark(char Mar);
+	bool IsLeft(char Lef);
+	bool IsRight(char Rig);
+	bool IsLower(char L, char R);
+	int ConvertChar2Num(char Mar);
+	char ConvertNum2Char(int Num);
+	int Calculate(int Left, int Right, char Mar);
 	
 private:
 	LinkStack<char> *L;
+	char* Container;
+	int Length;
 };
 
 
