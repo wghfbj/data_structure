@@ -6,7 +6,7 @@ using std::string;
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 
-#define Num   1000
+#define Num   50
 
 int main(int argc, char** argv) {
 	

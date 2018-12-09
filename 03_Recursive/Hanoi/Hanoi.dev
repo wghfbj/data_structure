@@ -61,7 +61,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit2]
-FileName=StrLen.h
+FileName=Hanoi.h
 CompileCpp=1
 Folder=
 Compile=1
@@ -71,7 +71,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit3]
-FileName=StrLen.cpp
+FileName=Hanoi.cpp
 CompileCpp=1
 Folder=
 Compile=1
