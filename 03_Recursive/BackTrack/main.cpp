@@ -1,4 +1,3 @@
-#include <iostream>
 #include "BackTrack.h"
 
 using std::string;
@@ -10,10 +9,11 @@ using std::string;
 
 int main(int argc, char** argv) {
 	
-	BackTrack *S = new BackTrack();
+	BackTrack *S = new BackTrack(8);
 	
 	if(S != NULL)
 	{
+		S->Start();
 		delete(S);
 	}
 
