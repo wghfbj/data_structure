@@ -17,7 +17,7 @@ BackTrack::BackTrack(int Num)
 	{
 		for (int tindex = 0; tindex < Num+2; tindex++)
 		{
-		    P[tindex] = new char[Num];
+		    P[tindex] = new char[Num+2];
 		}
 		for(int tindexy=0; tindexy<Num+2; tindexy++)
 		{
@@ -56,18 +56,19 @@ bool BackTrack::CheckValid(int x, int y)
 {
 	bool ret = TRUE;
 
-	for(int tindex=0; tindex<CPSize; tindex++)
-	{
-		int Parm = 1;
-		while(ret && P[x+CP[tindex].x*Parm][y+CP[tindex].y*Parm] != '#')
+	for(int tindex=0; tindex<CPSize && ret == TRUE; tindex++)
+	{//printf("\n line is %d x = %d y = %d \n", __LINE__, x, y);
+		int Parm = 0;
+		do
 		{
+			Parm++;
+			//printf("\n line is %d \n", __LINE__);
 			if(P[x+CP[tindex].x*Parm][y+CP[tindex].y*Parm] == '*')
-			{
+			{//printf("\n line is %d \n", __LINE__);
 				ret = FALSE;
 				break;
 			}
-			Parm++;
-		}
+		}while(ret && P[x+CP[tindex].x*Parm][y+CP[tindex].y*Parm] != '#');
 	}
 	
 	return ret;
@@ -76,22 +77,23 @@ bool BackTrack::CheckValid(int x, int y)
 bool BackTrack::StartFinding(int Start)
 {
 	bool ret = TRUE;
-	
-	if(Start > Size)
+	//printf("\n Start is %d \n", Start);
+	if(Start >= Size-1)
 	{
 		Display();
 	}
 	else
-	{
-		for(int tindex=0; tindex<Size; tindex++)
-		{
-			ret = CheckValid(Start, tindex);
+	{//printf("\n line is %d Start is %d \n", __LINE__, Start);
+		for(int tindex=1; tindex<Size-1; tindex++)
+		{//printf("\n line is %d \n", __LINE__);
+			ret = CheckValid(tindex, Start);
 			
 			if(ret)
-			{
-				P[Start][tindex] = '*';
+			{//printf("\n line is %d \n", __LINE__);
+				P[tindex][Start] = '*';
+				//Display();
 				StartFinding(Start+1);
-				P[Start][tindex] = ' ';
+				P[tindex][Start] = ' ';
 			}
 		}		
 	}
