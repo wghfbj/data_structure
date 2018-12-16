@@ -40,6 +40,7 @@ public:
 
 private:
 	int Length;
+	LinkNode<TLinklist> *Rear; 
 };
 
 

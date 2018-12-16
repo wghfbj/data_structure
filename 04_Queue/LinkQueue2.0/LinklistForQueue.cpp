@@ -19,6 +19,7 @@ Linklist<TLinklist>::Linklist():LinkNode<TLinklist>::LinkNode(0)  //创建线性表 /
 {
 	Length = 0;
 	this->NextNode = NULL;
+	this->Rear = (LinkNode<TLinklist> *)this;
 }
 
 template <class TLinklist>
@@ -39,6 +40,7 @@ Linklist<TLinklist>::~Linklist()  //销毁线性表  //O(1)
 	}
 	CurrentNode = NULL;
 	NextNode = NULL;
+	this->Rear = NULL;
 	Length = 0;
 }
 
@@ -51,6 +53,7 @@ int Linklist<TLinklist>::ClearLinklist()  //清空线性表 //O(1)
 	}
 	Length = 0;
 	this->NextNode = NULL;
+	this->Rear = (LinkNode<TLinklist> *)this;
 	return TRUE;
 }
 
@@ -81,7 +84,7 @@ TLinklist Linklist<TLinklist>::DeleteLinklist(unsigned int index) //删除线性表中
 }
 
 template <class TLinklist>
-TLinklist Linklist<TLinklist>::AddLinklist(TLinklist *data, unsigned int index) //在线性表中的某个位置添加元素  //O(n)
+TLinklist Linklist<TLinklist>::AddLinklist(TLinklist *data, unsigned int index) //在线性表中的某个位置添加元素  //O(1)
 {
 	TLinklist ret = FALSE;
 	if(data != NULL)
@@ -89,24 +92,11 @@ TLinklist Linklist<TLinklist>::AddLinklist(TLinklist *data, unsigned int index) 
 		LinkNode<TLinklist> *N = new LinkNode<TLinklist>(*data);
 		if(N != NULL)
 		{
-			if(index < Length)
+			if(index >= Length)
 			{
-				LinkNode<TLinklist> *CurrentNode = this;
-				for(int tindex=1; tindex<index; tindex++)
-				{
-					CurrentNode = CurrentNode->NextNode;
-				}
-				N->NextNode = CurrentNode->NextNode; 
+				LinkNode<TLinklist> *CurrentNode = this->Rear;
 				CurrentNode->NextNode = N;
-			}
-			else
-			{
-				LinkNode<TLinklist> *CurrentNode = this;
-				for(int tindex=0; tindex<Length; tindex++)
-				{
-					CurrentNode = CurrentNode->NextNode;
-				}
-				CurrentNode->NextNode = N;
+				Rear = N; 
 				N->NextNode = NULL;
 			}
 			Length++;
