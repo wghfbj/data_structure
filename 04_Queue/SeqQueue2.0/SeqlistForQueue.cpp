@@ -10,6 +10,8 @@ Seqlist<Tseqlist>::Seqlist(int Len)  //创建线性表 //O(1)
 	memset(Node, 0 ,MaxLength);
 	MaxLength = Len;
 	Length = 0;
+	Front = 0;
+	Rear = 0;
 }
 
 template <class Tseqlist>
@@ -26,50 +28,42 @@ template <class Tseqlist>
 int Seqlist<Tseqlist>::ClearSeqlist()  //清空线性表 //O(1)
 {
 	Length = 0;
+	Front = 0;
+	Rear = 0;
 	memset(Node, 0 ,MaxLength);
 	return TRUE;
 }
 
 template <class Tseqlist>
-Tseqlist Seqlist<Tseqlist>::DeleteSeqlist(int index) //删除线性表中的元素 //O(n)
+Tseqlist Seqlist<Tseqlist>::DeleteSeqlist(int index) //删除线性表中的元素 //O(1)
 {
 	Tseqlist ret = FALSE;
 	if(Node != NULL)
 	{
-		if((index >= 0) && (index <= Length))
+		if((index == 0))
 		{
-			ret = Node[index];
-			for(int start = index; start<Length-1; start++)
-			{
-				Node[start] = Node[start+1];
-			}
-			Node[Length-1] = 0;
+			ret = Node[Front];
+			Node[Front] = 0;
 			Length--;
+			Front++;
+			Front = Front%MaxLength;
 		}
 	}
 	return ret;
 }
 
 template <class Tseqlist>
-Tseqlist Seqlist<Tseqlist>::AddSeqlist(Tseqlist *data, int index) //在线性表中的某个位置添加元素  //O(n)
+Tseqlist Seqlist<Tseqlist>::AddSeqlist(Tseqlist *data, int index) //在线性表中的某个位置添加元素  //O(1)
 {
 	Tseqlist ret = FALSE;
 	if((Node != NULL) && (data != NULL))
 	{
-		if((index >= 0) && (index <= Length) && (Length < MaxLength))
-		{
-			for(int start = Length; start>index; start--)
-			{
-				Node[start] = Node[start-1];
-			}
-			Node[index] = *data;
-			Length++;
-			ret = TRUE;
-		}
-		else if((index >= Length) && (index < MaxLength))
+		if((index >= Length) && (index < MaxLength))
 		{
 			Node[Length] = *data;
 			Length++;
+			Rear++;
+			Rear = Rear%MaxLength;
 			ret = TRUE;
 		}
 	}
@@ -82,7 +76,10 @@ Tseqlist Seqlist<Tseqlist>::GetSeqlist(int index) //获取线性表中某个位置的元素 /
 	Tseqlist ret = 0;
 	if(Node != NULL)
 	{
-		ret = (Tseqlist)Node[index];
+		if(index == 0)
+		{
+			ret = (Tseqlist)Node[Front];
+		}
 	}
 	return ret;
 }

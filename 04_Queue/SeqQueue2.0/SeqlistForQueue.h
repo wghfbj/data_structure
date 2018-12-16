@@ -29,6 +29,8 @@ private:
 	int Length;
 	int MaxLength;
 	int *Node;
+	int Front;  //队列头的Index 
+	int Rear;   //队列尾的Index 
 };
 
 
