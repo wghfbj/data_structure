@@ -23,7 +23,7 @@ bool LinkQueue::LinkQueue_Clear(void)   //O(n)
 	return L->ClearLinklist();
 }
 
-int LinkQueue::LinkQueue_Append(int *data)   //O(1)
+int LinkQueue::LinkQueue_Append(int *data)   //O(n)
 {
 	return L->AddLinklist(data, L->GetLinklistLength());
 }
