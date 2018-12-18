@@ -23,11 +23,11 @@ public:
 	TSelectionSort GetSelectionSort(int index); //获取线性表中某个位置的元素
 	int GetSelectionSortMaxLength(void); //获取线性表所能承受的最大长度
 	int GetSelectionSortLength(void); //获取线性表当前的数据长度
-	void ShowSelectionSort(void);
-	void StartSort(void);
-	bool Swap(int A, int B);
+	void ShowSelectionSort(void); 
+	void StartSort(void); //排序线性表中所有元素大小顺序
 
 private:
+	bool Swap(int A, int B); //交换两个元素位置
 	int Length;
 	int MaxLength;
 	int *Node;

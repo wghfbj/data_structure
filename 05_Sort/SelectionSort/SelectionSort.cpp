@@ -111,13 +111,27 @@ void SelectionSort<TSelectionSort>::ShowSelectionSort() //打印线性表中所有元素  
 }
 
 template <class TSelectionSort>
-void SelectionSort<TSelectionSort>::StartSort(void)
+void SelectionSort<TSelectionSort>::StartSort(void) //排序线性表中所有元素大小顺序  //O(n2)
 {
-	
+	if(Node != NULL)
+	{
+		for(int tindexx = 0; tindexx < Length; tindexx++)
+		{
+			int tMin = tindexx;
+			for(int tindexy = tindexx; tindexy<Length; tindexy++)
+			{
+				if(Node[tindexy] < Node[tMin])
+				{
+					tMin = tindexy;
+				}
+			}
+			Swap(tindexx, tMin);
+		}
+	}
 }
 
 template <class TSelectionSort>
-bool SelectionSort<TSelectionSort>::Swap(int A, int B)
+bool SelectionSort<TSelectionSort>::Swap(int A, int B) //交换两个元素位置  //O(1)
 {
 	bool ret = FALSE;
 	

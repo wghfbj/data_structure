@@ -10,6 +10,14 @@ int main(int argc, char** argv) {
 	
 	if(SS != NULL)
 	{
+		for(int tindex = 0; tindex<10; tindex++)
+		{
+			int tmp = tindex;
+			SS->AddSelectionSort(&tmp, 0);
+		}
+		SS->ShowSelectionSort();
+		SS->StartSort();
+		SS->ShowSelectionSort();
 		delete(SS);
 	}
 
