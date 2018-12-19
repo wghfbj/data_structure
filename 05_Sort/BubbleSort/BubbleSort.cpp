@@ -115,18 +115,19 @@ void BubbleSort<TBubbleSort>::StartSort(void) //排序线性表中所有元素大小顺序  //
 {
 	if(Node != NULL)
 	{
-		for(int tindexx = 0; tindexx < Length; tindexx++)
+		bool exchange = TRUE;
+		for(int tindexx = 0; tindexx<Length && exchange; tindexx++)
 		{
-			int tMin = tindexx;
-			for(int tindexy = tindexx; tindexy<Length; tindexy++)
+			exchange = FALSE;
+			for(int tindexy=Length-1; tindexy>0; tindexy--)
 			{
-				if(Node[tindexy] < Node[tMin])
+				if(Node[tindexy] <= Node[tindexy-1])
 				{
-					tMin = tindexy;
+					exchange = TRUE;
+					Swap(tindexy, tindexy-1);
 				}
 			}
-			Swap(tindexx, tMin);
-		}
+		} 
 	}
 }
 
