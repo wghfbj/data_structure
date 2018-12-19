@@ -117,13 +117,13 @@ void InsertionSort<TInsertionSort>::StartSort(void) //排序线性表中所有元素大小顺
 	{
 		for(int tindexx = 1; tindexx < Length; tindexx++)
 		{
-			int tMin = tindexx;
+			int tmp = tindexx;
 			for(int tindexy = tindexx-1; tindexy>=0; tindexy--)
 			{
-				if(Node[tindexy] < Node[tMin])
+				if(Node[tmp] < Node[tindexy])
 				{
-					tMin = tindexy;
-					Swap(tindexx, tMin);
+					Swap(tmp, tindexy);
+					tmp = tindexy;
 				}
 			}
 		}
