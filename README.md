@@ -37,3 +37,4 @@
 # ---------SelectionSort
 # ---------InsertionSort
 # ---------BubbleSort
+# ---------ShellSort
