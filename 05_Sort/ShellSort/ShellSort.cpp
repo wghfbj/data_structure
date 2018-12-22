@@ -115,19 +115,27 @@ void ShellSort<TShellSort>::StartSort(void) //排序线性表中所有元素大小顺序  //O(
 {
 	if(Node != NULL)
 	{
-		bool exchange = TRUE;
-		for(int tindexx = 0; tindexx<Length && exchange; tindexx++)
+		int ShellStep = 3;
+		do
 		{
-			exchange = FALSE;
-			for(int tindexy=Length-1; tindexy>0; tindexy--)
+			for(int tindexx = ShellStep; tindexx < Length; tindexx++)
 			{
-				if(Node[tindexy] <= Node[tindexy-1])
+				int tmp = tindexx;
+				for(int tindexy = tindexx-ShellStep; tindexy>=0; tindexy-=ShellStep)
 				{
-					exchange = TRUE;
-					Swap(tindexy, tindexy-1);
+					if(Node[tmp] < Node[tindexy])
+					{
+						printf("\n SWAP %d & %d \n", tmp, tindexy);
+						Swap(tmp, tindexy);
+						ShowShellSort();
+						tmp = tindexy;
+					}
+					printf("\n end1 \n");
 				}
+				printf("\n end2 \n");
 			}
-		} 
+			ShellStep--;
+		}while(ShellStep>0);
 	}
 }
 
