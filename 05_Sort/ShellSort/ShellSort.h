@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <stddef.h>
+#include <iostream>
 
 using namespace std;
 #define TRUE 1
@@ -24,7 +25,7 @@ public:
 	int GetShellSortMaxLength(void); //获取线性表所能承受的最大长度
 	int GetShellSortLength(void); //获取线性表当前的数据长度
 	void ShowShellSort(void); 
-	void StartSort(void); //排序线性表中所有元素大小顺序
+	void StartSort(int index); //排序线性表中所有元素大小顺序
 
 private:
 	bool Swap(int A, int B); //交换两个元素位置

@@ -111,31 +111,27 @@ void ShellSort<TShellSort>::ShowShellSort() //打印线性表中所有元素  //O(n)
 }
 
 template <class TShellSort>
-void ShellSort<TShellSort>::StartSort(void) //排序线性表中所有元素大小顺序  //O(n2)
+void ShellSort<TShellSort>::StartSort(int index) //排序线性表中所有元素大小顺序  //O(n2)
 {
 	if(Node != NULL)
 	{
-		int ShellStep = 3;
+		int ShellStep = index;
 		do
 		{
-			for(int tindexx = ShellStep; tindexx < Length; tindexx++)
+			ShellStep = ShellStep/3+1;
+			for(int tindexx=ShellStep; tindexx!=0; tindexx=(ShellStep+tindexx)%Length)
 			{
 				int tmp = tindexx;
 				for(int tindexy = tindexx-ShellStep; tindexy>=0; tindexy-=ShellStep)
 				{
 					if(Node[tmp] < Node[tindexy])
 					{
-						printf("\n SWAP %d & %d \n", tmp, tindexy);
 						Swap(tmp, tindexy);
-						ShowShellSort();
 						tmp = tindexy;
 					}
-					printf("\n end1 \n");
 				}
-				printf("\n end2 \n");
 			}
-			ShellStep--;
-		}while(ShellStep>0);
+		}while(ShellStep > 1);
 	}
 }
 

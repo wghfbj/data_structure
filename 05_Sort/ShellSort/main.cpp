@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 			SS->AddShellSort(&tmp, 0);
 		}
 		SS->ShowShellSort();
-		SS->StartSort();
+		SS->StartSort(SS->GetShellSortLength());
 		SS->ShowShellSort();
 		delete(SS);
 	}
