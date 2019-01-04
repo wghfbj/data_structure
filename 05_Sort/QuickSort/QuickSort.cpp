@@ -111,27 +111,57 @@ void QuickSort<TQuickSort>::ShowQuickSort() //打印线性表中所有元素  //O(n)
 }
 
 template <class TQuickSort>
-void QuickSort<TQuickSort>::StartSort(int index) //排序线性表中所有元素大小顺序  //O(n2)
+int QuickSort<TQuickSort>::Part(int low, int high) //给线性表中数据进行左右分组
+{
+	int ret = -1;
+	if(Node != NULL)
+	{
+		int tmp = Node[low];
+		while(low < high)
+		{
+			while((low < high) && (tmp <= Node[high]))
+			{
+				high--;
+			}
+			
+			Swap(low, high);
+			
+			while((low < high) && (tmp >= Node[low]))
+			{
+				low++;
+			}
+			
+			Swap(low, high);
+		}
+		ret = low;
+		
+	}
+	return ret;
+}
+
+template <class TQuickSort>
+void QuickSort<TQuickSort>::QuickS(int low, int high) //给线性表中数据进行左右分组分组后的递归排序
 {
 	if(Node != NULL)
 	{
-		int ShellStep = index;
-		do
+		if(low != high)
 		{
-			ShellStep = ShellStep/3+1;
-			for(int tindexx=ShellStep; tindexx!=0; tindexx=(ShellStep+tindexx)%Length)
+			int tmp = Part(low, high);
+			if(tmp != -1)
 			{
-				int tmp = tindexx;
-				for(int tindexy = tindexx-ShellStep; tindexy>=0; tindexy-=ShellStep)
-				{
-					if(Node[tmp] < Node[tindexy])
-					{
-						Swap(tmp, tindexy);
-						tmp = tindexy;
-					}
-				}
+				Part(low, tmp-1);
+				Part(tmp+1, high);
 			}
-		}while(ShellStep > 1);
+		}
+	}
+} 
+
+template <class TQuickSort>
+void QuickSort<TQuickSort>::StartSort() //排序线性表中所有元素大小顺序
+{
+	if(Node != NULL)
+	{
+		QuickS(0, Length);
 	}
 }
 

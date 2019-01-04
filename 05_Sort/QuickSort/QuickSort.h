@@ -25,7 +25,9 @@ public:
 	int GetQuickSortMaxLength(void); //获取线性表所能承受的最大长度
 	int GetQuickSortLength(void); //获取线性表当前的数据长度
 	void ShowQuickSort(void); 
-	void StartSort(int index); //排序线性表中所有元素大小顺序
+	void StartSort(void); //排序线性表中所有元素大小顺序
+	int Part(int low, int high); //给线性表中数据进行左右分组
+	void QuickS(int low, int high); //给线性表中数据进行左右分组分组后的递归排序
 
 private:
 	bool Swap(int A, int B); //交换两个元素位置

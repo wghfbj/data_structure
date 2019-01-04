@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 			QQ->AddQuickSort(&tmp, 0);
 		}
 		QQ->ShowQuickSort();
-		QQ->StartSort(QQ->GetQuickSortLength());
+		QQ->StartSort();
 		QQ->ShowQuickSort();
 		delete(QQ);
 	}
