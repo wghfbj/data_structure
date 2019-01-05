@@ -102,10 +102,71 @@ void MergeSort<TMergeSort>::ShowMergeSort() //打印线性表中所有元素  //O(n)
 {
 	if(Node != NULL)
 	{
-		printf("\n MergeSort === >> \n");
+		printf("MergeSort === >> \n");
 		for(int Start = 0; Start<Length; Start++)
 		{
-			printf("\n Node[%d] = %d \n", Start, (TMergeSort)Node[Start]);
+			printf("Node[%d] = %d \n", Start, (TMergeSort)Node[Start]);
+		}
+	}
+}
+
+template <class TMergeSort>
+void MergeSort<TMergeSort>::Merge(int low, int mid, int high) //针对两路进行归并
+{
+	int tLow = low;
+	int tMid = mid;
+	int tIndex = 0;
+	if(Node != NULL)
+	{
+		//printf("\n line is %d low is %d mid is %d high is %d \n", __LINE__, low, mid, high);
+		TMergeSort *tNode = new TMergeSort[high-low+1];
+		if(tNode != NULL)
+		{
+			memset(tNode, 0 ,high-low+1);
+			while((tLow <= mid) && (tMid <= high))
+			{
+				if(Node[tLow] <= Node[tMid])
+				{
+					tNode[tIndex++] = Node[tLow++];
+				}
+				else
+				{
+					tNode[tIndex++] = Node[tMid++];
+				}
+			}
+			
+			while(tLow < mid)
+			{
+				tNode[tIndex++] = Node[tLow++];
+			}
+			
+			while(tMid < high)
+			{
+				tNode[tIndex++] = Node[tMid++];
+			}
+
+			memcpy(&Node[low], tNode, sizeof(TMergeSort)*(high-low+1));
+
+			delete tNode;
+			tNode = NULL;
+			
+			ShowMergeSort();
+		}
+	}
+}
+
+template <class TMergeSort>
+void MergeSort<TMergeSort>::MSort(int low, int high) //将线性表中数据进行递归分组 
+{
+	if(Node != NULL)
+	{
+		if(low < high)
+		{
+			int tMid = (high+low)/2+1;
+			//printf("\n line is %d low is %d tMid is %d high is %d \n", __LINE__, low, tMid, high);
+			MSort(low, tMid-1);
+			MSort(tMid, high);
+			Merge(low, tMid, high);
 		}
 	}
 }
@@ -115,18 +176,7 @@ void MergeSort<TMergeSort>::StartSort(void) //排序线性表中所有元素大小顺序  //O(
 {
 	if(Node != NULL)
 	{
-		for(int tindexx = 0; tindexx < Length; tindexx++)
-		{
-			int tMin = tindexx;
-			for(int tindexy = tindexx; tindexy<Length; tindexy++)
-			{
-				if(Node[tindexy] < Node[tMin])
-				{
-					tMin = tindexy;
-				}
-			}
-			Swap(tindexx, tMin);
-		}
+		MSort(0, Length-1);
 	}
 }
 
@@ -134,7 +184,7 @@ template <class TMergeSort>
 bool MergeSort<TMergeSort>::Swap(int A, int B) //交换两个元素位置  //O(1)
 {
 	bool ret = FALSE;
-	
+
 	if((A <= Length) && (B <= Length))
 	{
 		TMergeSort tmp = Node[A];

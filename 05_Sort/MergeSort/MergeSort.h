@@ -25,12 +25,14 @@ public:
 	int GetMergeSortLength(void); //获取线性表当前的数据长度
 	void ShowMergeSort(void); 
 	void StartSort(void); //排序线性表中所有元素大小顺序
+	void Merge(int low, int mid, int high); //针对两路进行归并
+	void MSort(int low, int high); //将线性表中数据进行递归分组 
 
 private:
 	bool Swap(int A, int B); //交换两个元素位置
 	int Length;
 	int MaxLength;
-	int *Node;
+	TMergeSort *Node;
 };
 
 #endif //_MERGESORT_H_
