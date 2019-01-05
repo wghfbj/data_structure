@@ -102,10 +102,10 @@ void QuickSort<TQuickSort>::ShowQuickSort() //打印线性表中所有元素  //O(n)
 {
 	if(Node != NULL)
 	{
-		printf("\n QuickSort === >> \n");
+		printf("\nQuickSort === >> \n");
 		for(int Start = 0; Start<Length; Start++)
 		{
-			printf("\n Node[%d] = %d \n", Start, (TQuickSort)Node[Start]);
+			printf("Node[%d] = %d \n", Start, (TQuickSort)Node[Start]);
 		}
 	}
 }
@@ -123,18 +123,17 @@ int QuickSort<TQuickSort>::Part(int low, int high) //给线性表中数据进行左右分组
 			{
 				high--;
 			}
-			
+
 			Swap(low, high);
-			
+
 			while((low < high) && (tmp >= Node[low]))
 			{
 				low++;
 			}
-			
+
 			Swap(low, high);
 		}
 		ret = low;
-		
 	}
 	return ret;
 }
@@ -144,13 +143,13 @@ void QuickSort<TQuickSort>::QuickS(int low, int high) //给线性表中数据进行左右分
 {
 	if(Node != NULL)
 	{
-		if(low != high)
+		if(low < high)
 		{
 			int tmp = Part(low, high);
 			if(tmp != -1)
 			{
-				Part(low, tmp-1);
-				Part(tmp+1, high);
+				QuickS(low, tmp-1);
+				QuickS(tmp+1, high);
 			}
 		}
 	}
