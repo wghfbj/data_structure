@@ -38,3 +38,5 @@
 # ---------InsertionSort
 # ---------BubbleSort
 # ---------ShellSort
+# ---------QuickSort
+# ---------MergeSort
