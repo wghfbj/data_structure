@@ -40,3 +40,7 @@
 # ---------ShellSort
 # ---------QuickSort
 # ---------MergeSort
+
+
+# ---06_Tree
+# ---------BasicTree //通用树
