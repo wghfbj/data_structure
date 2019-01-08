@@ -10,6 +10,8 @@ using namespace std;
 #define TRUE 1
 #define FALSE 0
 
+template <class TLinklist>
+class Linklist;
 //typedef int TLinklist;
 
 
@@ -21,6 +23,8 @@ public:
 	LinkNode(TLinklist data);
 	TLinklist data;
 	LinkNode *NextNode;
+	LinkNode *Parent;
+	Linklist<TLinklist> *Child;
 };
 
 

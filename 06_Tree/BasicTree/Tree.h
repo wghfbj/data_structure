@@ -9,7 +9,7 @@
 
 //=============Tree
 template <class TLinklist>
-class Tree : public LinkNode<TLinklist>
+class Tree
 {
 public:
 	Tree(void);  //´´½¨Ê÷

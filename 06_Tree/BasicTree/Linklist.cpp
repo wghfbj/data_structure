@@ -10,8 +10,10 @@ template <class TLinklist>
 LinkNode<TLinklist>::LinkNode(TLinklist data)
 {
 	this->data = data;
+	this->NextNode = NULL;
+	this->Parent = NULL;
+	this->Child = NULL;
 }
-
 
 //=============Linklist
 template <class TLinklist>
@@ -19,6 +21,8 @@ Linklist<TLinklist>::Linklist():LinkNode<TLinklist>::LinkNode(0)  //创建线性表 /
 {
 	Length = 0;
 	this->NextNode = NULL;
+	this->Parent = NULL;
+	this->Child = NULL;
 }
 
 template <class TLinklist>
@@ -117,7 +121,7 @@ TLinklist Linklist<TLinklist>::AddLinklist(LinkNode<TLinklist> *data, unsigned i
 template <class TLinklist>
 LinkNode<TLinklist>* Linklist<TLinklist>::GetLinklist(unsigned int index) //获取线性表中某个位置的元素 //O(n)
 {
-	LinkNode<TLinklist>* ret = NULL;
+	TLinklist ret = FALSE;
 	if(index < Length)
 	{
 		LinkNode<TLinklist> *CurrentNode = this->NextNode;

@@ -7,21 +7,29 @@
 
 //=============Tree
 template <class TLinklist>
-Tree<TLinklist>::Tree():LinkNode<TLinklist>::LinkNode(0)  //创建树 //O(1)
+Tree<TLinklist>::Tree()  //创建树 //O(1)
 {
-
+	strL = new Linklist<TLinklist>();
 }
 
 template <class TLinklist>
 Tree<TLinklist>::~Tree()  //销毁树  //O(1)
 {
-
+	ClearTree();
+	if(strL != NULL)
+	{
+		delete(strL);
+		strL = NULL;
+	}
 }
 
 template <class TLinklist>
 int Tree<TLinklist>::ClearTree()  //清空树 //O(1)
 {
+	if(strL != NULL)
+	{
 
+	} 
 	return TRUE;
 }
 
@@ -37,6 +45,25 @@ template <class TLinklist>
 TLinklist Tree<TLinklist>::InsertTree(TLinklist *data, unsigned int pPos) //在树中的某个位置添加元素  //O(n)
 {
 	TLinklist ret = FALSE;
+	if((strL != NULL) && (data != NULL))
+	{
+		LinkNode<TLinklist>* Node = new LinkNode<TLinklist>(*data);
+		Linklist<TLinklist>* ChList = new Linklist<TLinklist>();
+		if((Node != NULL) && (ChList != NULL))
+		{
+			Node->Child == ChList;
+			strL->AddLinklist(Node, strL->GetLinklistLength());
+		}
+		else
+		{
+			delete(Node);
+			delete(ChList);
+			Node = NULL;
+			ChList = NULL;
+			ret = FALSE; //Error
+		}
+	}
+
 	return ret;
 }
 
