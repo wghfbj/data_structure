@@ -7,16 +7,17 @@
 int main(int argc, char** argv) {
 
 	Tree<char> *T = new Tree<char>();
-//	int a = 0;
-//	int b = 1;
-//	int c = 2;
-//	int d = 3;
-//	int e = 4;
-//	T->InsertTree(&a, 0);
-//	T->InsertTree(&b, 0);
-//	T->InsertTree(&c, 0);
-//	T->InsertTree(&d, 0);
-//	T->InsertTree(&e, 0);
+	char a = 'A';
+	char b = 'B';
+	char c = 'C';
+	char d = 'D';
+	char e = 'E';
+	T->InsertTree(&a, 0);
+	T->InsertTree(&b, 0);
+	T->InsertTree(&c, 0);
+	T->InsertTree(&d, 1);
+	T->InsertTree(&e, 3);
+	T->DeleteTree(0);
 //	printf("\n 11 Get Tree Height = %d \n", (int)T->GetTreeHeight());
 //	T->ShowTree();
 //	printf("\n Get Index[%d] value = %d \n", 4, (int)T->GetTree(4));

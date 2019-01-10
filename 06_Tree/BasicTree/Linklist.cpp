@@ -121,7 +121,7 @@ TLinklist Linklist<TLinklist>::AddLinklist(LinkNode<TLinklist> *data, unsigned i
 template <class TLinklist>
 LinkNode<TLinklist>* Linklist<TLinklist>::GetLinklist(unsigned int index) //获取线性表中某个位置的元素 //O(n)
 {
-	TLinklist ret = FALSE;
+	LinkNode<TLinklist>* ret = NULL;
 	if(index < Length)
 	{
 		LinkNode<TLinklist> *CurrentNode = this->NextNode;

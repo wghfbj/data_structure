@@ -34,10 +34,40 @@ int Tree<TLinklist>::ClearTree()  //清空树 //O(1)
 }
 
 template <class TLinklist>
+TLinklist Tree<TLinklist>::RecursiveDeleteChild(Linklist<TLinklist>* ChiList) //回溯删除子节点
+{
+	TLinklist ret = FALSE;
+	if(ChiList != NULL)
+	{printf("\n line is %d \n", __LINE__);
+		int tmpLength = ChiList->GetLinklistLength();
+		for(int tindex=0; tindex<tmpLength; tindex++)
+		{printf("\n line is %d tindex is %d \n", __LINE__, tindex);
+			LinkNode<TLinklist>* tChild = ChiList->GetLinklist(tindex);
+			printf("\n line is %d \n", __LINE__);
+			RecursiveDeleteChild(tChild->Child);
+			printf("\n line is %d \n", __LINE__);
+			ChiList->DeleteLinklist(tindex);
+			printf("\n line is %d \n", __LINE__);
+		}
+		delete(ChiList);
+	}
+	return ret;
+}
+ 
+template <class TLinklist>
 TLinklist Tree<TLinklist>::DeleteTree(unsigned int pPos) //删除树中的元素 //O(n)
 {
 	TLinklist ret = FALSE;
-
+	if(strL != NULL)
+	{printf("\n line is %d \n", __LINE__);
+		LinkNode<TLinklist>* ParNode = GetTree(pPos);
+		if(ParNode != NULL)
+		{printf("\n line is %d \n", __LINE__);
+			RecursiveDeleteChild(ParNode->Child);
+			delete(ParNode);
+			ParNode = NULL;
+		}
+	}
 	return ret;
 }
 
@@ -49,10 +79,15 @@ TLinklist Tree<TLinklist>::InsertTree(TLinklist *data, unsigned int pPos) //在树
 	{
 		LinkNode<TLinklist>* Node = new LinkNode<TLinklist>(*data);
 		Linklist<TLinklist>* ChList = new Linklist<TLinklist>();
+		LinkNode<TLinklist>* ParNode = strL->GetLinklist(pPos);
 		if((Node != NULL) && (ChList != NULL))
 		{
-			Node->Child == ChList;
+			Node->Child = ChList;
 			strL->AddLinklist(Node, strL->GetLinklistLength());
+			if(ParNode != NULL)
+			{
+				ParNode->Child->AddLinklist(Node, ParNode->Child->GetLinklistLength());
+			}
 		}
 		else
 		{
@@ -68,9 +103,13 @@ TLinklist Tree<TLinklist>::InsertTree(TLinklist *data, unsigned int pPos) //在树
 }
 
 template <class TLinklist>
-TLinklist Tree<TLinklist>::GetTree(unsigned int pPos) //获取树中某个位置的元素 //O(n)
+LinkNode<TLinklist>* Tree<TLinklist>::GetTree(unsigned int pPos) //获取树中某个位置的元素 //O(n)
 {
-	TLinklist ret = FALSE;
+	LinkNode<TLinklist>* ret = NULL;
+	if(strL != NULL)
+	{
+		ret = strL->GetLinklist(pPos);
+	}
 	return ret;
 }
 
@@ -81,9 +120,9 @@ int Tree<TLinklist>::GetTreeHeight() //获取树当前树的高度
 }
 
 template <class TLinklist>
-TLinklist Tree<TLinklist>::GetRootTree(void) //获取树中根节点
+LinkNode<TLinklist>* Tree<TLinklist>::GetRootTree(void) //获取树中根节点
 {
-	TLinklist ret = 0;
+	LinkNode<TLinklist>* ret = GetTree(0);
 	return ret;
 }
 
