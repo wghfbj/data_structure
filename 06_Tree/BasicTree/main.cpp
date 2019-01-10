@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
 	T->InsertTree(&c, 0);
 	T->InsertTree(&d, 1);
 	T->InsertTree(&e, 3);
-	T->DeleteTree(0);
+	T->DeleteTree(1);
 //	printf("\n 11 Get Tree Height = %d \n", (int)T->GetTreeHeight());
 //	T->ShowTree();
 //	printf("\n Get Index[%d] value = %d \n", 4, (int)T->GetTree(4));

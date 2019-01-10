@@ -22,6 +22,7 @@ class LinkNode
 public:
 	LinkNode(TLinklist data);
 	TLinklist data;
+	int Index;
 	LinkNode *NextNode;
 	LinkNode *Parent;
 	Linklist<TLinklist> *Child;

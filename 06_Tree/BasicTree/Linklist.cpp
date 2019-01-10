@@ -13,6 +13,7 @@ LinkNode<TLinklist>::LinkNode(TLinklist data)
 	this->NextNode = NULL;
 	this->Parent = NULL;
 	this->Child = NULL;
+	this->Index = 0;
 }
 
 //=============Linklist

@@ -38,18 +38,19 @@ TLinklist Tree<TLinklist>::RecursiveDeleteChild(Linklist<TLinklist>* ChiList) //
 {
 	TLinklist ret = FALSE;
 	if(ChiList != NULL)
-	{printf("\n line is %d \n", __LINE__);
+	{
 		int tmpLength = ChiList->GetLinklistLength();
 		for(int tindex=0; tindex<tmpLength; tindex++)
-		{printf("\n line is %d tindex is %d \n", __LINE__, tindex);
+		{
+			int tChildIndex = 0;
 			LinkNode<TLinklist>* tChild = ChiList->GetLinklist(tindex);
-			printf("\n line is %d \n", __LINE__);
+			tChildIndex = tChild->Index;
 			RecursiveDeleteChild(tChild->Child);
-			printf("\n line is %d \n", __LINE__);
 			ChiList->DeleteLinklist(tindex);
-			printf("\n line is %d \n", __LINE__);
+			strL->DeleteLinklist(tChildIndex);
 		}
 		delete(ChiList);
+		ChiList = NULL;
 	}
 	return ret;
 }
@@ -59,12 +60,12 @@ TLinklist Tree<TLinklist>::DeleteTree(unsigned int pPos) //删除树中的元素 //O(n)
 {
 	TLinklist ret = FALSE;
 	if(strL != NULL)
-	{printf("\n line is %d \n", __LINE__);
+	{
 		LinkNode<TLinklist>* ParNode = GetTree(pPos);
 		if(ParNode != NULL)
-		{printf("\n line is %d \n", __LINE__);
+		{
 			RecursiveDeleteChild(ParNode->Child);
-			delete(ParNode);
+			strL->DeleteLinklist(pPos); 
 			ParNode = NULL;
 		}
 	}
@@ -84,6 +85,7 @@ TLinklist Tree<TLinklist>::InsertTree(TLinklist *data, unsigned int pPos) //在树
 		{
 			Node->Child = ChList;
 			strL->AddLinklist(Node, strL->GetLinklistLength());
+			Node->Index = strL->GetLinklistLength();
 			if(ParNode != NULL)
 			{
 				ParNode->Child->AddLinklist(Node, ParNode->Child->GetLinklistLength());
