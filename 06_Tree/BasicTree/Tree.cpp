@@ -143,9 +143,40 @@ int Tree<TLinklist>::GetTreeDegree(void) //获取当前树的度
 }
 
 template <class TLinklist>
+void Tree<TLinklist>::RecursiveShowChild(LinkNode<TLinklist>* ChiNode, unsigned int Blank) //回溯打印子节点
+{
+	if(ChiNode != NULL)
+	{
+		for(unsigned int tindexx = 0; tindexx< Blank*4; tindexx++)
+		{
+			printf("-");
+		}
+		printf("%c\n", ChiNode->data);
+		Linklist<TLinklist>* tChildLinkList = ChiNode->Child;
+		if(tChildLinkList != NULL)
+		{
+			int tChildLength = tChildLinkList->GetLinklistLength();
+			for(int tindexy = 0; tindexy<tChildLength; tindexy++)
+			{
+				RecursiveShowChild(tChildLinkList->GetLinklist(tindexy), Blank+1);
+			}
+		}
+	}
+} 
+
+template <class TLinklist>
 void Tree<TLinklist>::ShowTree() //打印树中所有元素  //O(n)
 {
-	
+	if(strL != NULL)
+	{
+		LinkNode<TLinklist> * rootNode = GetTree(0);
+		if(rootNode != NULL)
+		{
+			printf("\n");
+			RecursiveShowChild(rootNode, 1);
+			printf("\n");
+		}
+	} 
 }
 
 template <class TLinklist>

@@ -28,6 +28,7 @@ public:
 private:
 	Linklist<TLinklist> *strL;
 	TLinklist RecursiveDeleteChild(Linklist<TLinklist>* ChiNode); //回溯删除子节点
+	void RecursiveShowChild(LinkNode<TLinklist>* ChiNode, unsigned int Blank); //回溯打印子节点 
 };
 
 
