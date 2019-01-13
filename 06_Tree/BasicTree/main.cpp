@@ -17,18 +17,13 @@ int main(int argc, char** argv) {
 	T->InsertTree(&c, 0);
 	T->InsertTree(&d, 1);
 	T->InsertTree(&e, 3);
+	printf("\n 当前树的节点数为 %d \n", T->GetTreeCount());
+	printf("\n 当前树的度为 %d \n", T->GetTreeDegree());
+	printf("\n 当前树的高度为 %d \n", T->GetTreeHeight());
 	T->ShowTree();
 	T->DeleteTree(1);
 	T->ShowTree();
-//	printf("\n 11 Get Tree Height = %d \n", (int)T->GetTreeHeight());
-//	T->ShowTree();
-//	printf("\n Get Index[%d] value = %d \n", 4, (int)T->GetTree(4));
-//	printf("\n Delete Index[%d] value = %d \n", 2, (int)T->DeleteTree(2));
-//	printf("\n 22 Get Tree Height = %d \n", (int)T->GetTreeHeight());
-//	T->ShowTree();
-//	printf("\n\n Clear Tree \n");
-//	T->ClearTree(); 
-//	T->ShowTree();
+	
 	delete(T); 
 	printf("\n Func End ! \n\n");
 	return 0;

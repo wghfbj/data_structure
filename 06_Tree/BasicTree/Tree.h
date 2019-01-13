@@ -28,7 +28,9 @@ public:
 private:
 	Linklist<TLinklist> *strL;
 	TLinklist RecursiveDeleteChild(Linklist<TLinklist>* ChiNode); //回溯删除子节点
-	void RecursiveShowChild(LinkNode<TLinklist>* ChiNode, unsigned int Blank); //回溯打印子节点 
+	void RecursiveShowChild(LinkNode<TLinklist>* ChiNode, unsigned int Blank); //回溯打印子节点
+	int RecursiveNodeDegree(LinkNode<TLinklist>* ChiNode); //回溯查找子节点的度
+	int RecursiveNodeHeight(LinkNode<TLinklist>* ChiNode, int index); //回溯获取当前树的高度
 };
 
 

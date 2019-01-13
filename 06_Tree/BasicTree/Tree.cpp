@@ -61,12 +61,21 @@ TLinklist Tree<TLinklist>::DeleteTree(unsigned int pPos) //É¾³ýÊ÷ÖÐµÄÔªËØ //O(n)
 	TLinklist ret = FALSE;
 	if(strL != NULL)
 	{
-		LinkNode<TLinklist>* ParNode = GetTree(pPos);
-		if(ParNode != NULL)
+		LinkNode<TLinklist>* DeleteNode = GetTree(pPos);
+		if(DeleteNode != NULL)
 		{
-			RecursiveDeleteChild(ParNode->Child);
-			strL->DeleteLinklist(pPos); 
-			ParNode = NULL;
+			LinkNode<TLinklist> *ParNode = DeleteNode->Parent;
+			RecursiveDeleteChild(DeleteNode->Child);
+			strL->DeleteLinklist(pPos);
+			if(ParNode != NULL)
+			{
+				Linklist<TLinklist> *tChiList = ParNode->Child;
+				if(tChiList != NULL)
+				{
+					tChiList->DeleteChild(DeleteNode);
+				}
+			}
+			DeleteNode = NULL;
 		}
 	}
 	return ret;
@@ -84,6 +93,7 @@ TLinklist Tree<TLinklist>::InsertTree(TLinklist *data, unsigned int pPos) //ÔÚÊ÷
 		if((Node != NULL) && (ChList != NULL))
 		{
 			Node->Child = ChList;
+			Node->Parent = ParNode;
 			strL->AddLinklist(Node, strL->GetLinklistLength());
 			Node->Index = strL->GetLinklistLength();
 			if(ParNode != NULL)
@@ -116,9 +126,43 @@ LinkNode<TLinklist>* Tree<TLinklist>::GetTree(unsigned int pPos) //»ñÈ¡Ê÷ÖÐÄ³¸öÎ
 }
 
 template <class TLinklist>
+int Tree<TLinklist>::RecursiveNodeHeight(LinkNode<TLinklist>* ChiNode, int index) //»ØËÝ»ñÈ¡µ±Ç°Ê÷µÄ¸ß¶È
+{
+	int ret = 0;
+	if(ChiNode != NULL)
+	{
+		ret = index;
+		int tindexx = 0;
+		Linklist<TLinklist>* tChildLinkList = ChiNode->Child;
+		if(tChildLinkList != NULL)
+		{
+			int tChildLength = tChildLinkList->GetLinklistLength();
+			for(int tindexy = 0; tindexy<tChildLength; tindexy++)
+			{
+				tindexx = RecursiveNodeHeight(tChildLinkList->GetLinklist(tindexy), index+1);
+				if(tindexx > ret)
+				{
+					ret = tindexx;
+				}
+			}
+		}
+	}
+	return ret;
+}
+
+template <class TLinklist>
 int Tree<TLinklist>::GetTreeHeight() //»ñÈ¡Ê÷µ±Ç°Ê÷µÄ¸ß¶È
 {
-
+	int ret = 0;
+	if(strL != NULL)
+	{
+		LinkNode<TLinklist> * rootNode = GetTree(0);
+		if(rootNode != NULL)
+		{
+			ret = RecursiveNodeHeight(rootNode, 1);
+		}
+	} 
+	return ret; 
 }
 
 template <class TLinklist>
@@ -132,6 +176,38 @@ template <class TLinklist>
 int Tree<TLinklist>::GetTreeCount(void) //»ñÈ¡µ±Ç°Ê÷µÄ½ÚµãÊý
 {
 	int ret = 0;
+	if(strL != NULL)
+	{
+		ret = strL->GetLinklistLength();
+	} 
+	return ret;
+}
+
+template <class TLinklist>
+int Tree<TLinklist>::RecursiveNodeDegree(LinkNode<TLinklist>* ChiNode) //»ØËÝ²éÕÒ×Ó½ÚµãµÄ¶È 
+{
+	int ret = 0;
+	if(strL != NULL)
+	{
+		Linklist<TLinklist>* tChildLinkList = ChiNode->Child;
+		if(tChildLinkList != NULL)
+		{
+			int tChildDegree = tChildLinkList->GetLinklistLength();
+			ret = tChildDegree;
+			for(int tindex = 0; tindex<tChildDegree; tindex++)
+			{
+				int tmp = RecursiveNodeDegree(tChildLinkList->GetLinklist(tindex));
+				if(tmp > tChildDegree)
+				{
+					ret = tmp;
+				}
+				else
+				{
+					ret = tChildDegree;
+				}
+			}
+		}
+	}
 	return ret;
 }
 
@@ -139,6 +215,14 @@ template <class TLinklist>
 int Tree<TLinklist>::GetTreeDegree(void) //»ñÈ¡µ±Ç°Ê÷µÄ¶È
 {
 	int ret = 0;
+	if(strL != NULL)
+	{
+		LinkNode<TLinklist> * rootNode = GetTree(0);
+		if(rootNode != NULL)
+		{
+			ret = RecursiveNodeDegree(rootNode);
+		}
+	}
 	return ret;
 }
 

@@ -42,6 +42,7 @@ public:
 	LinkNode<TLinklist>* GetLinklist(unsigned int index); //获取线性表中某个位置的元素
 	int GetLinklistLength(void); //获取线性表当前的数据长度
 	void ShowLinklist(void);
+	TLinklist DeleteChild(LinkNode<TLinklist> *Node);
 
 private:
 	int Length;

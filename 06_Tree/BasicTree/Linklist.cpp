@@ -157,4 +157,31 @@ void Linklist<TLinklist>::ShowLinklist() //打印线性表中所有元素  //O(n)
 	}
 }
 
+template <class TLinklist>
+TLinklist Linklist<TLinklist>::DeleteChild(LinkNode<TLinklist> *Node)
+{
+	TLinklist ret = FALSE;
+	
+	if(Node != NULL)
+	{
+		LinkNode<TLinklist> *CurrentNode = this;
+		LinkNode<TLinklist> *PreNode = this;
+		LinkNode<TLinklist> *NextNode = this;
+		for(int tindex=0; tindex<Length; tindex++)
+		{
+			CurrentNode = CurrentNode->NextNode;
+			if(CurrentNode == Node)
+			{
+				break;
+			}
+			PreNode = CurrentNode;
+		}
+		NextNode = CurrentNode->NextNode;
+		PreNode->NextNode = NextNode;
+		Length--;
+	}
+
+	return ret;
+}
+
 #endif //_LINKLIST_CPP_
