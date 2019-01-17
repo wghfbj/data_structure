@@ -15,17 +15,15 @@ class Linklist;
 //typedef int TLinklist;
 
 
-//=============LinkNode
+//=============TreeNode
 template <class TLinklist>
-class LinkNode
+class TreeNode
 {
 public:
 	LinkNode(TLinklist data);
 	TLinklist data;
-	int Index;
-	LinkNode *NextNode;
-	LinkNode *Parent;
-	Linklist<TLinklist> *Child;
+	TreeNode *NextNode;
+	TreeNode *Parent;
 };
 
 

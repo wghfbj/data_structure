@@ -5,6 +5,24 @@
 #include <memory.h>
 #include <stddef.h>
 
+using namespace std;
+
+#define TRUE 1
+#define FALSE 0
+
+#define B_RIGHT 1
+#define B_LEFT  0
+
+//=============TreeNode
+template <class TLinklist>
+class TreeNode
+{
+public:
+	TreeNode(TLinklist data);
+	TLinklist data;
+	TreeNode *bRight;
+	TreeNode *bLeft;
+};
 
 //=============BTree
 template <class TLinklist>
@@ -15,9 +33,9 @@ public:
 	~BTree();   //销毁树 
 	int ClearBTree();  //清空树
 	TLinklist DeleteBTree(unsigned int pPos); //删除树中指定位置的节点 
-	TLinklist InsertBTree(TLinklist *data, unsigned int pPos); //在树中的指定位置处插入子节点 
-	LinkNode<TLinklist>* GetBTree(unsigned int pPos); //获取树中指定位置的元素 
-	LinkNode<TLinklist>* GetRootBTree(void); //获取树中根节点 
+	TLinklist InsertBTree(TLinklist *data, long pPos, int count, bool flag); //在树中的指定位置处插入子节点 
+	TreeNode<TLinklist>* GetBTree(long pPos, int count); //获取树中指定位置的元素 
+	TreeNode<TLinklist>* GetRootBTree(void); //获取树中根节点 
 	int GetBTreeHeight(void); //获取树当前树的高度
 	int GetBTreeCount(void); //获取当前树的节点数
 	int GetBTreeDegree(void); //获取当前树的度
@@ -25,11 +43,12 @@ public:
 	void ShowBTree(void);
 
 private:
-	Linklist<TLinklist> *strL;
+	TreeNode<TLinklist> *root;
+	int Length;
 	TLinklist RecursiveDeleteChild(Linklist<TLinklist>* ChiNode); //回溯删除子节点
-	void RecursiveShowChild(LinkNode<TLinklist>* ChiNode, unsigned int Blank); //回溯打印子节点
-	int RecursiveNodeDegree(LinkNode<TLinklist>* ChiNode); //回溯查找子节点的度
-	int RecursiveNodeHeight(LinkNode<TLinklist>* ChiNode, int index); //回溯获取当前树的高度
+	void RecursiveShowChild(TreeNode<TLinklist>* ChiNode, unsigned int Blank); //回溯打印子节点
+	int RecursiveNodeDegree(TreeNode<TLinklist>* ChiNode); //回溯查找子节点的度
+	int RecursiveNodeHeight(TreeNode<TLinklist>* ChiNode, int index); //回溯获取当前树的高度
 };
 
 

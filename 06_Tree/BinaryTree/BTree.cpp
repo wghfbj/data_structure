@@ -4,31 +4,42 @@
 #include "BTree.h"
 
 
+//=============TreeNode
+template <class TLinklist>
+TreeNode<TLinklist>::TreeNode(TLinklist data)
+{
+	this->data = data;
+	this->bRight = NULL;
+	this->bLeft = NULL;
+}
+
 //=============BTree
 template <class TLinklist>
 BTree<TLinklist>::BTree()  //创建树 //O(1)
 {
-	strL = new Linklist<TLinklist>();
+	root = NULL;
+	Length = 0;
 }
 
 template <class TLinklist>
 BTree<TLinklist>::~BTree()  //销毁树  //O(1)
 {
 	ClearBTree();
-	if(strL != NULL)
+	if(root != NULL)
 	{
-		delete(strL);
-		strL = NULL;
+		delete(root);
+		root = NULL;
 	}
 }
 
 template <class TLinklist>
 int BTree<TLinklist>::ClearBTree()  //清空树 //O(1)
 {
-	if(strL != NULL)
+	if(root != NULL)
 	{
 
-	} 
+	}
+	Length = 0;
 	return TRUE;
 }
 
@@ -38,18 +49,7 @@ TLinklist BTree<TLinklist>::RecursiveDeleteChild(Linklist<TLinklist>* ChiList) /
 	TLinklist ret = FALSE;
 	if(ChiList != NULL)
 	{
-		int tmpLength = ChiList->GetLinklistLength();
-		for(int tindex=0; tindex<tmpLength; tindex++)
-		{
-			int tChildIndex = 0;
-			LinkNode<TLinklist>* tChild = ChiList->GetLinklist(tindex);
-			tChildIndex = tChild->Index;
-			RecursiveDeleteChild(tChild->Child);
-			ChiList->DeleteLinklist(tindex);
-			strL->DeleteLinklist(tChildIndex);
-		}
-		delete(ChiList);
-		ChiList = NULL;
+
 	}
 	return ret;
 }
@@ -58,66 +58,67 @@ template <class TLinklist>
 TLinklist BTree<TLinklist>::DeleteBTree(unsigned int pPos) //删除树中的元素 //O(n)
 {
 	TLinklist ret = FALSE;
-	if(strL != NULL)
+	if(root != NULL)
 	{
-		LinkNode<TLinklist>* DeleteNode = GetBTree(pPos);
-		if(DeleteNode != NULL)
-		{
-			LinkNode<TLinklist> *ParNode = DeleteNode->Parent;
-			RecursiveDeleteChild(DeleteNode->Child);
-			strL->DeleteLinklist(pPos);
-			if(ParNode != NULL)
-			{
-				Linklist<TLinklist> *tChiList = ParNode->Child;
-				if(tChiList != NULL)
-				{
-					tChiList->DeleteChild(DeleteNode);
-				}
-			}
-			DeleteNode = NULL;
-		}
+
 	}
 	return ret;
 }
 
 template <class TLinklist>
-TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, unsigned int pPos) //在树中的某个位置添加元素  //O(n)
+TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, long pPos, int count, bool flag) //在树中的某个位置添加元素  //O(n)
 {
 	TLinklist ret = FALSE;
-	if((strL != NULL) && (data != NULL))
+	TreeNode<TLinklist> tNode = new TreeNode<TLinklist>(*data);
+	if((data != NULL) && (tNode != NULL))
 	{
-		LinkNode<TLinklist>* Node = new LinkNode<TLinklist>(*data);
-		Linklist<TLinklist>* ChList = new Linklist<TLinklist>();
-		LinkNode<TLinklist>* ParNode = strL->GetLinklist(pPos);
-		if((Node != NULL) && (ChList != NULL))
+		bool tBit = pPos & 0x01;
+		TreeNode<TLinklist> tNode = new TreeNode<TLinklist>(*data);
+		TreeNode<TLinklist> *ParNode = root;
+		TreeNode<TLinklist> *CurrNode = root;
+		while((CurrNode != NULL) && (count != 0))
 		{
-			Node->Child = ChList;
-			Node->Parent = ParNode;
-			strL->AddLinklist(Node, strL->GetLinklistLength());
-			Node->Index = strL->GetLinklistLength();
-			if(ParNode != NULL)
+			ParNode = CurrNode;
+			if(tBit == B_RIGHT)
 			{
-				ParNode->Child->AddLinklist(Node, ParNode->Child->GetLinklistLength());
+				CurrNode = CurrNode->bRight;
 			}
+			else if(tBit == B_LEFT)
+			{
+				CurrNode = CurrNode->bLeft;
+			}
+			count--;
+		}
+		if(ParNode == NULL) //Add root node
+		{
+			root = tNode;
+			Length++;
+			ret = TRUE;
 		}
 		else
 		{
-			delete(Node);
-			delete(ChList);
-			Node = NULL;
-			ChList = NULL;
-			ret = FALSE; //Error
+			if(flag == B_RIGHT)
+			{
+				ParNode->bRight = tNode;
+				Length++;
+				ret = TRUE;
+			}
+			else if(flag == B_LEFT)
+			{
+				ParNode->bLeft = tNode;
+				Length++;
+				ret = TRUE;
+			}
 		}
 	}
-
 	return ret;
 }
 
 template <class TLinklist>
-LinkNode<TLinklist>* BTree<TLinklist>::GetBTree(unsigned int pPos) //获取树中某个位置的元素 //O(n)
+TreeNode<TLinklist>* BTree<TLinklist>::GetBTree(long pPos, int count) //获取树中某个位置的元素 //O(n)
 {
-	LinkNode<TLinklist>* ret = NULL;
-	if(strL != NULL)
+	TreeNode<TLinklist>* ret = NULL;
+	if(root != NULL)
 	{
 		ret = strL->GetLinklist(pPos);
 	}
@@ -165,9 +166,13 @@ int BTree<TLinklist>::GetBTreeHeight() //获取树当前树的高度
 }
 
 template <class TLinklist>
-LinkNode<TLinklist>* BTree<TLinklist>::GetRootBTree(void) //获取树中根节点
+TreeNode<TLinklist>* BTree<TLinklist>::GetRootBTree(void) //获取树中根节点
 {
-	LinkNode<TLinklist>* ret = GetBTree(0);
+	TreeNode<TLinklist>* ret = NULL;
+	if(root != NULL)
+	{
+		ret = root;
+	}
 	return ret;
 }
 
