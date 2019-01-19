@@ -44,38 +44,16 @@ int BTree<TLinklist>::ClearBTree()  //清空树 //O(1)
 }
 
 template <class TLinklist>
-TLinklist BTree<TLinklist>::RecursiveDeleteChild(Linklist<TLinklist>* ChiList) //回溯删除子节点
+TLinklist BTree<TLinklist>::DeleteBTree(long pPos, unsigned int count) //删除树中的元素 //O(n)
 {
 	TLinklist ret = FALSE;
-	if(ChiList != NULL)
-	{
-
-	}
-	return ret;
-}
- 
-template <class TLinklist>
-TLinklist BTree<TLinklist>::DeleteBTree(unsigned int pPos) //删除树中的元素 //O(n)
-{
-	TLinklist ret = FALSE;
+	unsigned int tCount = count;
+	long tPos = pPos;
 	if(root != NULL)
 	{
-
-	}
-	return ret;
-}
-
-template <class TLinklist>
-TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, long pPos, int count, bool flag) //在树中的某个位置添加元素  //O(n)
-{
-	TLinklist ret = FALSE;
-	TreeNode<TLinklist> tNode = new TreeNode<TLinklist>(*data);
-	if((data != NULL) && (tNode != NULL))
-	{
 		bool tBit = pPos & 0x01;
-		TreeNode<TLinklist> tNode = new TreeNode<TLinklist>(*data);
-		TreeNode<TLinklist> *ParNode = root;
 		TreeNode<TLinklist> *CurrNode = root;
+		TreeNode<TLinklist> *ParNode = root;
 		while((CurrNode != NULL) && (count != 0))
 		{
 			ParNode = CurrNode;
@@ -88,8 +66,57 @@ TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, long pPos, int count, b
 				CurrNode = CurrNode->bLeft;
 			}
 			count--;
+			pPos = pPos>>1;
+			tBit = pPos & 0x01;
 		}
-		if(ParNode == NULL) //Add root node
+		if(CurrNode != NULL)
+		{
+			long tmpr = (tPos<<1) | B_RIGHT;
+			long tmpl = (tPos<<1) | B_LEFT;
+			DeleteBTree(tmpr, tCount+1);
+			DeleteBTree(tmpl, tCount+1);
+			delete(CurrNode);
+			CurrNode = NULL;
+			if(tBit == B_RIGHT)
+			{
+				ParNode->bRight = NULL;
+			}
+			else if(tBit == B_LEFT)
+			{
+				ParNode->bLeft = NULL;
+			}
+			Length--;
+		}
+	}
+	return ret;
+}
+
+template <class TLinklist>
+TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, long pPos, unsigned int count) //在树中的某个位置添加元素  //O(n)
+{
+	TLinklist ret = FALSE;
+	TreeNode<TLinklist> *tNode = new TreeNode<TLinklist>(*data);
+	if((data != NULL) && (tNode != NULL))
+	{
+		bool tBit = pPos & 0x01;
+		TreeNode<TLinklist> *tNode = new TreeNode<TLinklist>(*data);
+		TreeNode<TLinklist> *CurrNode = root;
+		while((CurrNode != NULL) && (count != 0))
+		{
+			if(tBit == B_RIGHT)
+			{
+				CurrNode = CurrNode->bRight;
+			}
+			else if(tBit == B_LEFT)
+			{
+				CurrNode = CurrNode->bLeft;
+			}
+			count--;
+			pPos = pPos>>1;
+			tBit = pPos & 0x01;
+		}
+
+		if(CurrNode == NULL) //Add root node
 		{
 			root = tNode;
 			Length++;
@@ -97,54 +124,69 @@ TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, long pPos, int count, b
 		}
 		else
 		{
-			if(flag == B_RIGHT)
+			if(tBit == B_RIGHT)
 			{
-				ParNode->bRight = tNode;
+				CurrNode->bRight = tNode;
 				Length++;
 				ret = TRUE;
 			}
-			else if(flag == B_LEFT)
+			else if(tBit == B_LEFT)
 			{
-				ParNode->bLeft = tNode;
+				CurrNode->bLeft = tNode;
 				Length++;
 				ret = TRUE;
 			}
 		}
 	}
-	return ret;
-}
-
-template <class TLinklist>
-TreeNode<TLinklist>* BTree<TLinklist>::GetBTree(long pPos, int count) //获取树中某个位置的元素 //O(n)
-{
-	TreeNode<TLinklist>* ret = NULL;
-	if(root != NULL)
+	else
 	{
-		ret = strL->GetLinklist(pPos);
+		delete(tNode);
+		tNode = NULL;
 	}
 	return ret;
 }
 
 template <class TLinklist>
-int BTree<TLinklist>::RecursiveNodeHeight(LinkNode<TLinklist>* ChiNode, int index) //回溯获取当前树的高度
+TreeNode<TLinklist>* BTree<TLinklist>::GetBTree(long pPos, unsigned int count) //获取树中某个位置的元素 //O(n)
+{
+	TreeNode<TLinklist>* ret = NULL;
+	if(root != NULL)
+	{
+		bool tBit = pPos & 0x01;
+		TreeNode<TLinklist> *CurrNode = root;
+		while((CurrNode != NULL) && (count != 0))
+		{
+			if(tBit == B_RIGHT)
+			{
+				CurrNode = CurrNode->bRight;
+			}
+			else if(tBit == B_LEFT)
+			{
+				CurrNode = CurrNode->bLeft;
+			}
+			count--;
+		}
+		ret = CurrNode;
+	}
+	return ret;
+}
+
+template <class TLinklist>
+int BTree<TLinklist>::RecursiveNodeHeight(TreeNode<TLinklist>* ChiNode, int index) //回溯获取当前树的高度
 {
 	int ret = 0;
 	if(ChiNode != NULL)
 	{
 		ret = index;
-		int tindexx = 0;
-		Linklist<TLinklist>* tChildLinkList = ChiNode->Child;
-		if(tChildLinkList != NULL)
+		int tindexx = RecursiveNodeHeight(ChiNode->bLeft, index+1);
+		if(tindexx > ret)
 		{
-			int tChildLength = tChildLinkList->GetLinklistLength();
-			for(int tindexy = 0; tindexy<tChildLength; tindexy++)
-			{
-				tindexx = RecursiveNodeHeight(tChildLinkList->GetLinklist(tindexy), index+1);
-				if(tindexx > ret)
-				{
-					ret = tindexx;
-				}
-			}
+			ret = tindexx;
+		}
+		tindexx = RecursiveNodeHeight(ChiNode->bRight, index+1);
+		if(tindexx > ret)
+		{
+			ret = tindexx;
 		}
 	}
 	return ret;
@@ -154,13 +196,10 @@ template <class TLinklist>
 int BTree<TLinklist>::GetBTreeHeight() //获取树当前树的高度
 {
 	int ret = 0;
-	if(strL != NULL)
+	if(root != NULL)
 	{
-		LinkNode<TLinklist> * rootNode = GetBTree(0);
-		if(rootNode != NULL)
-		{
-			ret = RecursiveNodeHeight(rootNode, 1);
-		}
+		TreeNode<TLinklist> * rootNode = root;
+		ret = RecursiveNodeHeight(rootNode, 1);
 	} 
 	return ret; 
 }
@@ -180,36 +219,37 @@ template <class TLinklist>
 int BTree<TLinklist>::GetBTreeCount(void) //获取当前树的节点数
 {
 	int ret = 0;
-	if(strL != NULL)
+	if(root != NULL)
 	{
-		ret = strL->GetLinklistLength();
+		ret = Length;
 	} 
 	return ret;
 }
 
 template <class TLinklist>
-int BTree<TLinklist>::RecursiveNodeDegree(LinkNode<TLinklist>* ChiNode) //回溯查找子节点的度 
+int BTree<TLinklist>::RecursiveNodeDegree(TreeNode<TLinklist>* ChiNode) //回溯查找子节点的度 
 {
 	int ret = 0;
-	if(strL != NULL)
+	if(ChiNode != NULL)
 	{
-		Linklist<TLinklist>* tChildLinkList = ChiNode->Child;
-		if(tChildLinkList != NULL)
+		if((ChiNode->bLeft != NULL) && (ChiNode->bRight != NULL))
 		{
-			int tChildDegree = tChildLinkList->GetLinklistLength();
-			ret = tChildDegree;
-			for(int tindex = 0; tindex<tChildDegree; tindex++)
-			{
-				int tmp = RecursiveNodeDegree(tChildLinkList->GetLinklist(tindex));
-				if(tmp > tChildDegree)
-				{
-					ret = tmp;
-				}
-				else
-				{
-					ret = tChildDegree;
-				}
-			}
+			ret = 2;
+		}
+		else if((ChiNode->bLeft != NULL) || (ChiNode->bRight != NULL))
+		{
+			ret = 1;
+		}
+
+		int tmp = RecursiveNodeDegree(ChiNode->bLeft);
+		if(ret < tmp)
+		{
+			ret = tmp;
+		}
+		tmp = RecursiveNodeDegree(ChiNode->bLeft);
+		if(ret < tmp)
+		{
+			ret = tmp;
 		}
 	}
 	return ret;
@@ -219,51 +259,45 @@ template <class TLinklist>
 int BTree<TLinklist>::GetBTreeDegree(void) //获取当前树的度
 {
 	int ret = 0;
-	if(strL != NULL)
+	if(root != NULL)
 	{
-		LinkNode<TLinklist> * rootNode = GetBTree(0);
-		if(rootNode != NULL)
-		{
-			ret = RecursiveNodeDegree(rootNode);
-		}
+		TreeNode<TLinklist> * rootNode = root;
+		ret = RecursiveNodeDegree(rootNode);
 	}
 	return ret;
 }
 
 template <class TLinklist>
-void BTree<TLinklist>::RecursiveShowChild(LinkNode<TLinklist>* ChiNode, unsigned int Blank) //回溯打印子节点
+void BTree<TLinklist>::RecursiveShowChild(TreeNode<TLinklist>* ChiNode, unsigned int Blank) //回溯打印子节点
 {
+	for(unsigned int tindexx = 0; tindexx< Blank*4; tindexx++)
+	{
+		printf("-");
+	}
 	if(ChiNode != NULL)
 	{
-		for(unsigned int tindexx = 0; tindexx< Blank*4; tindexx++)
-		{
-			printf("-");
-		}
 		printf("%c\n", ChiNode->data);
-		Linklist<TLinklist>* tChildLinkList = ChiNode->Child;
-		if(tChildLinkList != NULL)
+		if((ChiNode->bLeft != NULL) || (ChiNode->bRight != NULL))
 		{
-			int tChildLength = tChildLinkList->GetLinklistLength();
-			for(int tindexy = 0; tindexy<tChildLength; tindexy++)
-			{
-				RecursiveShowChild(tChildLinkList->GetLinklist(tindexy), Blank+1);
-			}
+			RecursiveShowChild(ChiNode->bLeft, Blank+1);
+			RecursiveShowChild(ChiNode->bRight, Blank+1);
 		}
+	}
+	else
+	{
+		printf("\n");
 	}
 } 
 
 template <class TLinklist>
-void BTree<TLinklist>::ShowBTree() //打印树中所有元素  //O(n)
+void BTree<TLinklist>::ShowBTree(void) //打印树中所有元素  //O(n)
 {
-	if(strL != NULL)
+	if(root != NULL)
 	{
-		LinkNode<TLinklist> * rootNode = GetBTree(0);
-		if(rootNode != NULL)
-		{
-			printf("\n");
-			RecursiveShowChild(rootNode, 1);
-			printf("\n");
-		}
+		TreeNode<TLinklist> * rootNode = root;
+		printf("\n");
+		RecursiveShowChild(rootNode, 1);
+		printf("\n");
 	} 
 }
 
