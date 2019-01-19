@@ -26,6 +26,14 @@ int main(int argc, char** argv) {
 	printf("\n 当前树的度为 %d \n", B->GetBTreeDegree());
 	printf("\n 当前树的高度为 %d \n", B->GetBTreeHeight());
 	B->ShowBTree();
+	printf("\n 当前树的前序遍历为  \n");
+	B->Pre_Traversal();
+	printf("\n 当前树的中序遍历为  \n");
+	B->Mid_Traversal() ;
+	printf("\n 当前树的后序遍历为  \n");
+	B->Post_Traversal();
+	printf("\n 当前树的层次遍历为  \n");
+	B->Level_Traversal(); 
 	B->DeleteBTree(0x0, 1);
 	B->ShowBTree();
 	

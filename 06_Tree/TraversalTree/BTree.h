@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <memory.h>
 #include <stddef.h>
+#include "LinkQueue.h" 
 
 using namespace std;
 
@@ -41,6 +42,12 @@ public:
 	int GetBTreeDegree(void); //获取当前树的度
 	int GetBTreeSerch(TLinklist Des);   //获取Des数据在组织链表中的位置并打印对应路径 
 	void ShowBTree(void);
+	
+	//遍历
+	void Pre_Traversal(void); //前序遍历 
+	void Mid_Traversal(void);  //中序遍历 
+	void Post_Traversal(void); //后序遍历
+	void Level_Traversal(void); //层次遍历
 
 private:
 	TreeNode<TLinklist> *root;
@@ -48,6 +55,10 @@ private:
 	void RecursiveShowChild(TreeNode<TLinklist>* ChiNode, unsigned int Blank); //回溯打印子节点
 	int RecursiveNodeDegree(TreeNode<TLinklist>* ChiNode); //回溯查找子节点的度
 	int RecursiveNodeHeight(TreeNode<TLinklist>* ChiNode, int index); //回溯获取当前树的高度
+	//回溯遍历
+	void RecursivePre_Traversal(TreeNode<TLinklist>* ChiNode);
+	void RecursiveMid_Traversal(TreeNode<TLinklist>* ChiNode);
+	void RecursivePost_Traversal(TreeNode<TLinklist>* ChiNode);
 };
 
 

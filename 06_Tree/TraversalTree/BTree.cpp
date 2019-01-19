@@ -309,4 +309,95 @@ int BTree<TLinklist>::GetBTreeSerch(TLinklist Des)   //获取Des数据在组织链表中的
 	return ret;
 }
 
+template <class TLinklist>
+void BTree<TLinklist>::RecursivePre_Traversal(TreeNode<TLinklist>* ChiNode)
+{
+	if(ChiNode != NULL)
+	{
+		printf("%c ", ChiNode->data);
+		RecursivePre_Traversal(ChiNode->bLeft);
+		RecursivePre_Traversal(ChiNode->bRight);
+	}
+}
+template <class TLinklist>
+void BTree<TLinklist>::Pre_Traversal(void)
+{
+	if(root != NULL)
+	{
+		printf("\n");
+		printf("%c ", root->data);
+		RecursivePre_Traversal(root->bLeft);
+		RecursivePre_Traversal(root->bRight);
+		printf("\n");
+	}
+}
+
+template <class TLinklist>
+void BTree<TLinklist>::RecursiveMid_Traversal(TreeNode<TLinklist>* ChiNode)
+{
+	if(ChiNode != NULL)
+	{
+		RecursiveMid_Traversal(ChiNode->bLeft);
+		printf("%c ", ChiNode->data);
+		RecursiveMid_Traversal(ChiNode->bRight);
+	}
+}
+template <class TLinklist>
+void BTree<TLinklist>::Mid_Traversal(void)
+{
+	if(root != NULL)
+	{
+		printf("\n");
+		RecursiveMid_Traversal(root->bLeft);
+		printf("%c ", root->data);
+		RecursiveMid_Traversal(root->bRight);
+		printf("\n");
+	} 
+}
+
+template <class TLinklist>
+void BTree<TLinklist>::RecursivePost_Traversal(TreeNode<TLinklist>* ChiNode)
+{
+	if(ChiNode != NULL)
+	{
+		RecursivePost_Traversal(ChiNode->bLeft);
+		RecursivePost_Traversal(ChiNode->bRight);
+		printf("%c ", ChiNode->data);
+	}
+}
+template <class TLinklist>
+void BTree<TLinklist>::Post_Traversal(void)
+{
+	if(root != NULL)
+	{
+		printf("\n");
+		RecursivePost_Traversal(root->bLeft);
+		RecursivePost_Traversal(root->bRight);
+		printf("%c ", root->data);
+		printf("\n");
+	} 
+}
+
+template <class TLinklist>
+void BTree<TLinklist>::Level_Traversal(void)
+{
+	if(root != NULL)
+	{
+		LinkQueue *tmpLQ = new LinkQueue();
+		if(tmpLQ != NULL)
+		{
+			printf("\n");
+			tmpLQ->LinkQueue_Append((char *)root);
+			while(tmpLQ->LinkQueue_GetLength() > 0)
+			{
+				TreeNode<TLinklist>* tNode = (TreeNode<TLinklist>*)tmpLQ->LinkQueue_Retrieve();
+				printf("%c ", tNode->data);
+				tmpLQ->LinkQueue_Append((char *)(tNode->bLeft));
+				tmpLQ->LinkQueue_Append((char *)(tNode->bRight));
+			}
+			printf("\n");
+		}
+	}
+} 
+
 #endif //_BTREE_CPP_
