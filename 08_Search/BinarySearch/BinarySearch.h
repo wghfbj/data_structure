@@ -4,22 +4,22 @@
 #include <iostream>
 #include <stdlib.h>
 #include <time.h>
+#include "InsertionSort.h"
 
 #define SearchLength  20
 
-class BinarySearch
+class BinarySearch : public InsertionSort<int>
 {
 public:
-	int Num[SearchLength+1];
-	
-public:
-	BinarySearch();
+	BinarySearch(void);
 	~BinarySearch();
 	int StaticSearch(void);
 	void SearchDisplay(void);
+	int RecursiveSearch(int Start, int End, int target);
 	
 private:
 	void InitSearch(void);
+	
 };
 
 #endif //__BINARYSEARCH_H__
