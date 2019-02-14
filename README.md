@@ -62,3 +62,4 @@
 # ---------BinarySearch //二分法查找
 # --------------(1)类模板继承后如何调用父类的方法
 # ---------InterpolationSearch //插值查找
+# ---------BinarySearchTree //二叉排序树
