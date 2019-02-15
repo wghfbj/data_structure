@@ -1,5 +1,5 @@
-#ifndef _BTREE_CPP_
-#define _BTREE_CPP_
+#ifndef _BSTREE_CPP_
+#define _BSTREE_CPP_
 
 #include "BSTree.h"
 
@@ -13,18 +13,18 @@ TreeNode<TLinklist>::TreeNode(TLinklist data)
 	this->bLeft = NULL;
 }
 
-//=============BTree
+//=============BSTree
 template <class TLinklist>
-BTree<TLinklist>::BTree()  //创建树 //O(1)
+BSTree<TLinklist>::BSTree()  //创建树 //O(1)
 {
 	root = NULL;
 	Length = 0;
 }
 
 template <class TLinklist>
-BTree<TLinklist>::~BTree()  //销毁树  //O(1)
+BSTree<TLinklist>::~BSTree()  //销毁树  //O(1)
 {
-	ClearBTree();
+	ClearBSTree();
 	if(root != NULL)
 	{
 		delete(root);
@@ -33,7 +33,7 @@ BTree<TLinklist>::~BTree()  //销毁树  //O(1)
 }
 
 template <class TLinklist>
-int BTree<TLinklist>::ClearBTree()  //清空树 //O(1)
+int BSTree<TLinklist>::ClearBSTree()  //清空树 //O(1)
 {
 	if(root != NULL)
 	{
@@ -44,77 +44,64 @@ int BTree<TLinklist>::ClearBTree()  //清空树 //O(1)
 }
 
 template <class TLinklist>
-TLinklist BTree<TLinklist>::DeleteBTree(long pPos, unsigned int count) //删除树中的元素 //O(n)
+TLinklist BSTree<TLinklist>::DeleteBSTree(TLinklist Des) //删除树中的元素
 {
 	TLinklist ret = FALSE;
-	unsigned int tCount = count;
-	long tPos = pPos;
 	if(root != NULL)
 	{
-		bool tBit = pPos & 0x01;
-		TreeNode<TLinklist> *CurrNode = root;
-		TreeNode<TLinklist> *ParNode = root;
-		while((CurrNode != NULL) && (count != 0))
+		ret = TRUE;
+	}
+	return ret;
+}
+
+template <class TLinklist>
+TLinklist BSTree<TLinklist>::RecursiveInsert(TreeNode<TLinklist> *RootNode, TreeNode<TLinklist> *ChiNode)
+{
+	TLinklist ret = FALSE;
+	if((ChiNode != NULL) && (RootNode != NULL))
+	{
+		if(BSTreeCompare(RootNode->data, ChiNode->data) > 0)
 		{
-			ParNode = CurrNode;
-			if(tBit == B_RIGHT)
+			if(RootNode->bLeft != NULL)
 			{
-				CurrNode = CurrNode->bRight;
+				RecursiveInsert(RootNode->bLeft, ChiNode);
 			}
-			else if(tBit == B_LEFT)
+			else
 			{
-				CurrNode = CurrNode->bLeft;
+				RootNode->bLeft = ChiNode;
+				Length++;
+				ret = TRUE;
 			}
-			count--;
-			pPos = pPos>>1;
-			tBit = pPos & 0x01;
 		}
-		if(CurrNode != NULL)
+		else if(BSTreeCompare(RootNode->data, ChiNode->data) < 0)
 		{
-			long tmpr = (tPos<<1) | B_RIGHT;
-			long tmpl = (tPos<<1) | B_LEFT;
-			DeleteBTree(tmpr, tCount+1);
-			DeleteBTree(tmpl, tCount+1);
-			delete(CurrNode);
-			CurrNode = NULL;
-			if(tBit == B_RIGHT)
+			if(RootNode->bRight != NULL)
 			{
-				ParNode->bRight = NULL;
+				RecursiveInsert(RootNode->bRight, ChiNode);
 			}
-			else if(tBit == B_LEFT)
+			else
 			{
-				ParNode->bLeft = NULL;
+				RootNode->bRight = ChiNode;
+				Length++;
+				ret = TRUE;
 			}
-			Length--;
+		}
+		else if(BSTreeCompare(RootNode->data, ChiNode->data) == 0)
+		{
+			ret = FALSE;
 		}
 	}
 	return ret;
 }
 
 template <class TLinklist>
-TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, long pPos, unsigned int count) //在树中的某个位置添加元素  //O(n)
+TLinklist BSTree<TLinklist>::InsertBSTree(TLinklist *data) //在树中的某个位置添加元素
 {
 	TLinklist ret = FALSE;
 	TreeNode<TLinklist> *tNode = new TreeNode<TLinklist>(*data);
 	if((data != NULL) && (tNode != NULL))
 	{
-		bool tBit = pPos & 0x01;
-		TreeNode<TLinklist> *tNode = new TreeNode<TLinklist>(*data);
 		TreeNode<TLinklist> *CurrNode = root;
-		while((CurrNode != NULL) && (count != 0))
-		{
-			if(tBit == B_RIGHT)
-			{
-				CurrNode = CurrNode->bRight;
-			}
-			else if(tBit == B_LEFT)
-			{
-				CurrNode = CurrNode->bLeft;
-			}
-			count--;
-			pPos = pPos>>1;
-			tBit = pPos & 0x01;
-		}
 
 		if(CurrNode == NULL) //Add root node
 		{
@@ -124,18 +111,7 @@ TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, long pPos, unsigned int
 		}
 		else
 		{
-			if(tBit == B_RIGHT)
-			{
-				CurrNode->bRight = tNode;
-				Length++;
-				ret = TRUE;
-			}
-			else if(tBit == B_LEFT)
-			{
-				CurrNode->bLeft = tNode;
-				Length++;
-				ret = TRUE;
-			}
+			ret = RecursiveInsert(CurrNode, tNode);
 		}
 	}
 	else
@@ -147,32 +123,47 @@ TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, long pPos, unsigned int
 }
 
 template <class TLinklist>
-TreeNode<TLinklist>* BTree<TLinklist>::GetBTree(long pPos, unsigned int count) //获取树中某个位置的元素 //O(n)
+TreeNode<TLinklist>* BSTree<TLinklist>::RecursiveGet(TreeNode<TLinklist>* ChiNode, TLinklist Des)
 {
 	TreeNode<TLinklist>* ret = NULL;
-	if(root != NULL)
+	if(ChiNode != NULL)
 	{
-		bool tBit = pPos & 0x01;
-		TreeNode<TLinklist> *CurrNode = root;
-		while((CurrNode != NULL) && (count != 0))
+		if(BSTreeCompare(ChiNode->data, Des) == 0)
 		{
-			if(tBit == B_RIGHT)
-			{
-				CurrNode = CurrNode->bRight;
-			}
-			else if(tBit == B_LEFT)
-			{
-				CurrNode = CurrNode->bLeft;
-			}
-			count--;
+			ret = ChiNode;
 		}
-		ret = CurrNode;
+		else if(BSTreeCompare(ChiNode->data, Des) > 0)
+		{
+			if(ChiNode->bLeft != NULL)
+			{
+				RecursiveGet(ChiNode->bLeft, Des);
+			}
+		}
+		else if(BSTreeCompare(ChiNode->data, Des) < 0)
+		{
+			if(ChiNode->bRight != NULL)
+			{
+				RecursiveGet(ChiNode->bRight, Des);
+			}
+		}
 	}
 	return ret;
 }
 
 template <class TLinklist>
-int BTree<TLinklist>::RecursiveNodeHeight(TreeNode<TLinklist>* ChiNode, int index) //回溯获取当前树的高度
+TreeNode<TLinklist>* BSTree<TLinklist>::GetBSTree(TLinklist Des) //获取树中某个位置的元素
+{
+	TreeNode<TLinklist>* ret = NULL;
+	if(root != NULL)
+	{
+		TreeNode<TLinklist> *CurrNode = root;
+		ret = RecursiveGet(CurrNode, Des);
+	}
+	return ret;
+}
+
+template <class TLinklist>
+int BSTree<TLinklist>::RecursiveNodeHeight(TreeNode<TLinklist>* ChiNode, int index) //回溯获取当前树的高度
 {
 	int ret = 0;
 	if(ChiNode != NULL)
@@ -193,7 +184,7 @@ int BTree<TLinklist>::RecursiveNodeHeight(TreeNode<TLinklist>* ChiNode, int inde
 }
 
 template <class TLinklist>
-int BTree<TLinklist>::GetBTreeHeight() //获取树当前树的高度
+int BSTree<TLinklist>::GetBSTreeHeight() //获取树当前树的高度
 {
 	int ret = 0;
 	if(root != NULL)
@@ -205,7 +196,7 @@ int BTree<TLinklist>::GetBTreeHeight() //获取树当前树的高度
 }
 
 template <class TLinklist>
-TreeNode<TLinklist>* BTree<TLinklist>::GetRootBTree(void) //获取树中根节点
+TreeNode<TLinklist>* BSTree<TLinklist>::GetRootBSTree(void) //获取树中根节点
 {
 	TreeNode<TLinklist>* ret = NULL;
 	if(root != NULL)
@@ -216,7 +207,7 @@ TreeNode<TLinklist>* BTree<TLinklist>::GetRootBTree(void) //获取树中根节点
 }
 
 template <class TLinklist>
-int BTree<TLinklist>::GetBTreeCount(void) //获取当前树的节点数
+int BSTree<TLinklist>::GetBSTreeCount(void) //获取当前树的节点数
 {
 	int ret = 0;
 	if(root != NULL)
@@ -227,7 +218,7 @@ int BTree<TLinklist>::GetBTreeCount(void) //获取当前树的节点数
 }
 
 template <class TLinklist>
-int BTree<TLinklist>::RecursiveNodeDegree(TreeNode<TLinklist>* ChiNode) //回溯查找子节点的度 
+int BSTree<TLinklist>::RecursiveNodeDegree(TreeNode<TLinklist>* ChiNode) //回溯查找子节点的度
 {
 	int ret = 0;
 	if(ChiNode != NULL)
@@ -256,7 +247,7 @@ int BTree<TLinklist>::RecursiveNodeDegree(TreeNode<TLinklist>* ChiNode) //回溯查
 }
 
 template <class TLinklist>
-int BTree<TLinklist>::GetBTreeDegree(void) //获取当前树的度
+int BSTree<TLinklist>::GetBSTreeDegree(void) //获取当前树的度
 {
 	int ret = 0;
 	if(root != NULL)
@@ -268,7 +259,7 @@ int BTree<TLinklist>::GetBTreeDegree(void) //获取当前树的度
 }
 
 template <class TLinklist>
-void BTree<TLinklist>::RecursiveShowChild(TreeNode<TLinklist>* ChiNode, unsigned int Blank) //回溯打印子节点
+void BSTree<TLinklist>::RecursiveShowChild(TreeNode<TLinklist>* ChiNode, unsigned int Blank) //回溯打印子节点
 {
 	for(unsigned int tindexx = 0; tindexx< Blank*4; tindexx++)
 	{
@@ -276,7 +267,7 @@ void BTree<TLinklist>::RecursiveShowChild(TreeNode<TLinklist>* ChiNode, unsigned
 	}
 	if(ChiNode != NULL)
 	{
-		printf("%c\n", ChiNode->data);
+		printf("%d\n", ChiNode->data);
 		if((ChiNode->bLeft != NULL) || (ChiNode->bRight != NULL))
 		{
 			RecursiveShowChild(ChiNode->bLeft, Blank+1);
@@ -290,7 +281,7 @@ void BTree<TLinklist>::RecursiveShowChild(TreeNode<TLinklist>* ChiNode, unsigned
 } 
 
 template <class TLinklist>
-void BTree<TLinklist>::ShowBTree(void) //打印树中所有元素  //O(n)
+void BSTree<TLinklist>::ShowBSTree(void) //打印树中所有元素  //O(n)
 {
 	if(root != NULL)
 	{
@@ -302,11 +293,19 @@ void BTree<TLinklist>::ShowBTree(void) //打印树中所有元素  //O(n)
 }
 
 template <class TLinklist>
-int BTree<TLinklist>::GetBTreeSerch(TLinklist Des)   //获取Des数据在组织链表中的位置并打印对应路径
+int BSTree<TLinklist>::GetBSTreeSerch(TLinklist Des)   //获取Des数据在组织链表中的位置并打印对应路径
 {
 	int ret = 0;
-	
+
 	return ret;
 }
 
-#endif //_BTREE_CPP_
+template <class TLinklist>
+int BSTree<TLinklist>::BSTreeCompare(TLinklist a, TLinklist b) // 返回值>0 表示a>b 返回值小于0 表示a<b 返回值=0 表示a=b 
+{
+	int ret = 0;
+	ret = a - b;
+	return ret;
+}
+
+#endif //_BSTREE_CPP_

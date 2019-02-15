@@ -6,30 +6,32 @@
 
 int main(int argc, char** argv) {
 
-	BTree<char> *B = new BTree<char>();
-	char a = 'A';
-	char b = 'B';
-	char c = 'C';
-	char d = 'D';
-	char e = 'E';
-	B->InsertBTree(&a, 0x0, 0);
-	B->InsertBTree(&b, 0x0, 0);
-	B->InsertBTree(&c, 0x1, 0);
-	B->InsertBTree(&d, 0x0, 1);
-	B->InsertBTree(&e, 0x2, 1);
+	BSTree<int> *BS = new BSTree<int>();
+	
+	int a = 3;
+	int b = 4;
+	int c = 1;
+	int d = 2;
+	int e = 7;
+	BS->InsertBSTree(&a);
+	BS->InsertBSTree(&b);
+	BS->InsertBSTree(&c);
+	BS->InsertBSTree(&d);
+	BS->InsertBSTree(&e);
 	/*
 	                	A
 	            B				C
 	        D		E
 	*/
-	printf("\n 当前树的节点数为 %d \n", B->GetBTreeCount());
-	printf("\n 当前树的度为 %d \n", B->GetBTreeDegree());
-	printf("\n 当前树的高度为 %d \n", B->GetBTreeHeight());
-	B->ShowBTree();
-	B->DeleteBTree(0x0, 1);
-	B->ShowBTree();
+	printf("\n 当前树的节点数为 %d \n", BS->GetBSTreeCount());
+	printf("\n 当前树的度为 %d \n", BS->GetBSTreeDegree());
+	printf("\n 当前树的高度为 %d \n", BS->GetBSTreeHeight());
+	BS->ShowBSTree();
+	//BS->DeleteBSTree(1);
+	//BS->ShowBSTree();
 	
-	delete(B); 
+	
+	delete(BS); 
 	printf("\n Func End ! \n\n");
 	return 0;
 }
