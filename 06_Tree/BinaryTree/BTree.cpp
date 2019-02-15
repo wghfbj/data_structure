@@ -99,7 +99,6 @@ TLinklist BTree<TLinklist>::InsertBTree(TLinklist *data, long pPos, unsigned int
 	if((data != NULL) && (tNode != NULL))
 	{
 		bool tBit = pPos & 0x01;
-		TreeNode<TLinklist> *tNode = new TreeNode<TLinklist>(*data);
 		TreeNode<TLinklist> *CurrNode = root;
 		while((CurrNode != NULL) && (count != 0))
 		{
